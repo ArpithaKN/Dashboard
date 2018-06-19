@@ -1,0 +1,19 @@
+{
+    "name": "NodeJsWebApplication",
+    "version": "1.0.0",
+    "keywords": ["util", "functional", "server", "client", "browser"],
+    "author": "Acer",
+    "contributors": [],
+    "dependencies": {"body-parser":"*",
+        "cookie-parser":"*",
+        "multer":"*",
+         "mongoose"   : "*",
+         "mongodb" : "*",
+        "cors":"^2.7.1",
+        "passport": "*",
+        "passport-local": "*",
+        "express":"*",
+        "express-session":"*",
+        "connect-redis":"*"
+    }
+}

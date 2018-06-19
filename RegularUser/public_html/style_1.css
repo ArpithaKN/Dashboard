@@ -1,0 +1,25 @@
+.col-sm-3{
+    margin-top: 5%;
+}
+
+#demo{
+    margin-top: 3%;
+    padding-left: 30%;
+    font-size: 20px;
+}
+
+
+.panel-heading{
+    background-color:green;
+    padding-left: 35%;
+    padding-bottom: 1%;
+    padding-top: 1%;
+    color: white;
+}
+.panel-heading1{
+    background-color:green;
+    padding-left: 35%;
+    padding-bottom: 1%;
+    padding-top: 1%;
+    color: white;
+}

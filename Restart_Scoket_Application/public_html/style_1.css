@@ -1,0 +1,26 @@
+#lable{
+    margin-top: 3%;
+    margin-left: 5%;
+   font-size: 20px;
+}
+#demo{
+    margin-top: 3%;
+    padding-left: 30%;
+    font-size: 25px;
+}
+#form{
+    margin-top:3%;
+    padding-left:5%;
+    font-size: 25px;
+}
+input[type=radio] {
+    margin-left: 10%;
+}
+.form-control1{
+    margin-top:3%;
+    padding-left:15%;
+    font-size: 20px;
+}
+.form-control{
+    font-size: 15px;
+}

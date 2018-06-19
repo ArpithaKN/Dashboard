@@ -1,0 +1,477 @@
+var app = angular.module('myApp', []);
+var completetransaction = [], transaction = [], member = [], dockings = [], ports = [], vehicle1 = [];
+var ip, portsid, card1, phone1, userId, vehicleuid;
+var baseURL = "https://www.mytrintrin.com:13060/api/";           //to get dockingstation,member,transactions,completeTransactions and vehicle
+var imgsrc = "https://www.mytrintrin.com/mytrintrin/Member/";    //to get a profilePic
+var unlockURL = "http://43.251.80.79:13080/api/";              //to unlock and create a checkouts record
+var todayDate = new Date(); //current date
+var currmonth = todayDate.getMonth();
+var currdate = todayDate.getDate();
+var curryear = todayDate.getFullYear();
+var dockingStatus, transactionStatus, memberStatus, vehicleStatus, completeStatus;
+var ipstatus, unitstatus, portstatus, vehiclestatus, userstatus;
+app.controller('customersCtrl', function ($scope, $http) {
+    var second = new Date(todayDate);
+    second.setDate(second.getDate() + 1);
+    var first = new Date(todayDate);
+    first.setDate(first.getDate() - 2);
+    var data1 = {
+        fromdate: first,
+        todate: second
+    };
+    $http({
+        method: "GET",
+        url: baseURL + "transactions", //Open CheckOuts
+        data: '',
+        headers: {
+            "Content-Type": "application/json"
+        }
+
+    }).then(function (response, status) {
+        $scope.myData = response.data.data;
+        transaction = $scope.myData;
+        transactionStatus = 1;
+        $scope.count = $scope.myData.length;
+        $scope.time = todayDate.getTime();
+    });
+    $http({
+        method: "GET",
+        url: baseURL + "vehicle", //Open CheckOuts
+        data: '',
+        headers: {
+            "Content-Type": "application/json"
+        }
+
+    }).then(function (response, status) {
+        $scope.vehicle = response.data.data;
+        vehicle1 = $scope.vehicle;
+        vehicleStatus = 1;
+    });
+    $http({
+        method: "GET",
+        url: baseURL + "member/qweuird78fj3498asdjkfhahsysd98y4rsdjhf",
+        data: '',
+        headers: {
+            "Content-Type": "application/json"
+        }
+
+    }).then(function (response, status) {
+        $scope.myData1 = response.data.data;
+        member = $scope.myData1;
+        memberStatus = 1;
+    });
+    $http({
+        method: "POST",
+        url: baseURL + "transactions/completed",
+        data: data1,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(function (response2, status) {
+        $scope.myData2 = response2.data.data;
+        completetransaction = $scope.myData2;
+        completeStatus = 1;
+    });
+    $http({
+        method: "GET",
+        url: baseURL + "dockstation", //Open CheckOuts
+        data: '',
+        headers: {
+            "Content-Type": "application/json"
+        }
+
+    }).then(function (response, status) {
+        $scope.dockings = response.data.data;
+        dockings = $scope.dockings;
+        dockingStatus = 1;
+    });
+
+    var myvar1 = setInterval(getdata1, 15000); //setInterval for 15 sec
+    function getdata1()  //calling function for setInterval
+    {
+        $http({
+            method: "GET",
+            url: baseURL + "transactions", //Open CheckOuts
+            data: '',
+            headers: {
+                "Content-Type": "application/json"
+            }
+
+        }).then(function (response, status) {
+            $scope.myData = response.data.data;
+            transaction = $scope.myData;
+            $scope.count = $scope.myData.length;
+            $scope.time = todayDate.getTime();
+            transactionStatus = 1;
+        });
+        $http({
+            method: "POST",
+            url: baseURL + "transactions/completed",
+            data: data1,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(function (response2, status) {
+            $scope.myData2 = response2.data.data;
+            completetransaction = $scope.myData2;
+            completeStatus = 1;
+        });
+    }
+//    $scope.findrfid = function (val)                               //Find member details using RFID
+//    {
+//        var completetransaction1 = [];
+//        var transaction1 = [];
+//        for (var i = 0; i < member.length; i++)
+//            if (member[i].smartCardNumber === val)
+//            {
+//                $scope.name1 = member[i].Name + '  ' + member[i].lastName;          //member Name
+//                $scope.bal = member[i].creditBalance;                               //member balance
+//                $scope.phone = member[i].phoneNumber;                               //member phoneNumber
+//                $scope.card = member[i].cardNum;
+//                $scope.statuscolour = member[i].status;
+//                $scope.memberprofilePic = imgsrc + member[i].UserID + '/' + member[i].profilePic + '.png';   //member profilepic 
+//                if (member[i].status === 1)                                             //member status
+//                {
+//                    var status = " Registered ";
+//                    $scope.status = status;
+//                }
+//                if (member[i].status === 0)
+//                {
+//                    var status = "Prospective";
+//                    $scope.status = status;
+//                }
+//                if (member[i].status === -1)
+//                {
+//                    var status = "Cancelled";
+//                    $scope.status = status;
+//                }
+//                if (member[i].status === -2)
+//                {
+//                    var status = "Suspended";
+//                    $scope.status = status;
+//                }
+//                if (member[i].status === -3)
+//                {
+//                    var status = " Expired ";
+//                    $scope.status = status;
+//                }
+//            }
+//        for (var i = 0; i < completetransaction.length; i++)                         //copmlete transactions
+//            if (completetransaction[i].smartCardNumber === val)
+//            {
+//                completetransaction1.push(completetransaction[i]);
+//            }
+//        $scope.completetransaction1 = completetransaction1;                          //open checkouts
+//        for (var i = 0; i < transaction.length; i++)
+//            if (transaction[i].user.cardNum === card1)
+//            {
+//                transaction1.push(transaction[i]);
+//            }
+//        $scope.transaction1 = transaction1;
+//    };
+    $scope.findcard = function (card)                           //Find member details using CARDNUMBER
+    {
+        card1 = parseInt(card, 10);
+        var completetransaction1 = [], transaction1 = [];
+        for (var i = 0; i < member.length; i++)
+        {
+            if (member[i].cardNum === card1)
+            {
+                $scope.name1 = member[i].Name + '  ' + member[i].lastName;            //member Name
+                $scope.bal = member[i].creditBalance;                                 //member balance
+                $scope.phone = member[i].phoneNumber;                                 //member phonenumber
+                $scope.card = member[i].cardNum;
+                $scope.statuscolour = member[i].status;
+                $scope.memberprofilePic = imgsrc + member[i].UserID + '/' + member[i].profilePic + '.png';   //member profilepic 
+                if (member[i].status === 1)                                             //member status
+                {
+                    var status = " Registered ";
+                    $scope.status = status;
+                }
+                if (member[i].status === 0)
+                {
+                    var status = "Prospective";
+                    $scope.status = status;
+                }
+                if (member[i].status === -1)
+                {
+                    var status = "Cancelled";
+                    $scope.status = status;
+                }
+                if (member[i].status === -2)
+                {
+                    var status = "Suspended";
+                    $scope.status = status;
+                }
+                if (member[i].status === -3)
+                {
+                    var status = " Expired ";
+                    $scope.status = status;
+                }
+            }
+        }
+        for (var i = 0; i < completetransaction.length; i++)              //complrte transactions
+            if (completetransaction[i].user.cardNum === card1)
+            {
+                completetransaction1.push(completetransaction[i]);
+            }
+        $scope.completetransaction1 = completetransaction1;
+        for (var i = 0; i < transaction.length; i++)                      //opencheckouts
+            if (transaction[i].user.cardNum === card1)
+            {
+                transaction1.push(transaction[i]);
+            }
+        $scope.transaction1 = transaction1;
+    };
+    $scope.findphone = function (phone)                           //Find member details using Phonenumber
+    {
+        phone1 = "91-" + phone;
+        var completetransaction1 = [], transaction1 = [];
+        for (var i = 0; i < member.length; i++)
+        {
+            if (member[i].phoneNumber === phone1)
+            {
+                $scope.name1 = member[i].Name + '  ' + member[i].lastName;            //member Name
+                $scope.bal = member[i].creditBalance;                                 //member balance
+                $scope.phone = member[i].phoneNumber;                                 //member phonenumber
+                $scope.card = member[i].cardNum;
+                $scope.statuscolour = member[i].status;
+                $scope.memberprofilePic = imgsrc + member[i].UserID + '/' + member[i].profilePic + '.png';   //member profilepic 
+                if (member[i].status === 1)                                             //member status
+                {
+                    var status = " Registered ";
+                    $scope.status = status;
+                }
+                if (member[i].status === 0)
+                {
+                    var status = "Prospective";
+                    $scope.status = status;
+                }
+                if (member[i].status === -1)
+                {
+                    var status = "Cancelled";
+                    $scope.status = status;
+                }
+                if (member[i].status === -2)
+                {
+                    var status = "Suspended";
+                    $scope.status = status;
+                }
+                if (member[i].status === -3)
+                {
+                    var status = " Expired ";
+                    $scope.status = status;
+                }
+            }
+        }
+        for (var i = 0; i < completetransaction.length; i++)              //complrte transactions
+            if (completetransaction[i].user.phoneNumber === phone1)
+            {
+                completetransaction1.push(completetransaction[i]);
+            }
+        $scope.completetransaction1 = completetransaction1;
+        for (var i = 0; i < transaction.length; i++)                      //opencheckouts
+            if (transaction[i].user.phoneNumber === phone1)
+            {
+                transaction1.push(transaction[i]);
+            }
+        $scope.transaction1 = transaction1;
+    };
+    $scope.delete = function (id) {
+        id1 = 'transactions/' + id;
+        // sweetAlert(id1);
+        $http({
+            method: 'DELETE',
+            url: baseURL + id1,
+            data: '',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(function (response2, status) {
+            $scope.myData2 = response2.data.data;
+            sweetAlert($scope.myData2);
+            $http({
+                method: "GET",
+                url: baseURL + "transactions", //Open CheckOuts
+                data: '',
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(function (response, status) {
+                $scope.myData = response.data.data;
+                transaction = $scope.myData;
+                var transaction1 = [];
+                for (var i = 0; i < transaction.length; i++)                      //opencheckouts
+                    if (transaction[i].user.cardNum === card1)
+                    {
+                        transaction1.push(transaction[i]);
+                    }
+                $scope.transaction1 = transaction1;
+            });
+        });
+    };
+
+    $scope.removeTagOnBackspace = function (event, card) {                //backSpace function
+        if (card.length <= 1) {
+            if (event.keyCode === 8) {
+                $scope.name1 = '';
+                $scope.bal = '';
+                $scope.phone = '';
+                $scope.card = '';
+                $scope.memberprofilePic = 'th.jpg';
+                $scope.status = '';
+                $scope.completetransaction1 = [];
+                $scope.transaction1 = [];
+                document.getElementById('demo1').style.display = "none";
+            }
+        }
+        document.getElementById('demo1').style.display = "block";
+    };
+
+    $scope.selecteddockingstation = function (data) {                   //Docking Staion  names and Ip address
+        for (var i = 0; i < dockings.length; i++)
+            if (data.StationID === dockings[i].StationID)
+            {
+                ports = dockings[i].portIds;                            //ports
+                ip = dockings[i].ipAddress;                             //ipaddress of particular station
+            }
+        if (ip)
+            ipstatus = 1;
+        else
+            ipstatus = 0;
+        $scope.ports = ports;
+    };
+
+
+    $scope.unlock = function () {                                       //Unlock the ports and create the checkouts records 
+        if ($scope.unit){
+unitstatus = 1;
+}
+        else{
+            unitstatus = 0;
+}
+        if ($scope.port){
+            portstatus = 1;
+}
+        else{
+            portstatus = 0;
+}
+        var data = {
+            host: ip,
+            unit: $scope.unit,
+            port: $scope.port
+        };
+        for (var i = 0; i < member.length; i++)                      //To get UserID
+        {
+            if (member[i].cardNum === card1)
+            {
+                userId = member[i].UserID;
+                userstatus = 1;
+            } else
+                userstatus = 0;
+        }
+        var vehicleno = "MYS-Fleet-" + $scope.cyclenumber;
+        for (var i = 0; i < vehicle1.length; i++)                     //To get vehicleUid
+        {
+            if (vehicle1[i].vehicleNumber === vehicleno)
+            {
+                vehicleuid = vehicle1[i].vehicleUid;
+                vehiclestatus = 1;
+            } else
+                vehiclestatus = 0;
+        }
+        //alert($scope.unit);
+        if ((dockingStatus === 1) && (memberStatus === 1) && (vehicleStatus === 1))
+        {
+            if ((ipstatus === 1) && (unitstatus === 1) && (portstatus === 1))
+            {
+                $http({//to unlock                          
+                    method: "POST",
+                    url: unlockURL + "transactions/unlock",
+                    data: data,
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }).then(function (response2, status) {
+                    $scope.unlock1 = response2.data.data;
+                    for (var i = 0; i < ports.length; i++)                        //To get portsID
+                    {
+                        if ((ports[i].dockingPortId.FPGA === $scope.unit) && (ports[i].dockingPortId.ePortNumber === $scope.port))
+                        {
+                            portsid = ports[i].dockingPortId.PortID;
+                            portstatus = 1;
+                        } else
+                            portstatus = 0;
+                    }
+
+
+                    swal({
+                        title: 'Are you sure?',
+                        text: "You want to create a checkouts!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, create it!'
+                    }).then(function () {
+                        var datetime = new Date();
+                        var data2 = {
+                            cardId: userId,
+                            fromPort: portsid,
+                            vehicleId: vehicleuid,
+                            checkOutTime: datetime,
+                            checkOutInitiatedTime: datetime,
+                            checOutCompletionTime: datetime
+                        };
+                        $http({//to create a checkouts records
+                            method: "POST",
+                            url: unlockURL + "transactions/checkout/bridge",
+                            data: data2,
+                            headers: {
+                                "Content-Type": "application/json"
+                            }
+                        }).then(function (response2, status) {
+                            $scope.checkout = response2.data.data;
+                            swal(
+                                    'Created',
+                                    'Your checkout is created.',
+                                    'success'
+                                    );
+                            $http({
+                                method: "GET",
+                                url: baseURL + "transactions", //Open CheckOuts
+                                data: '',
+                                headers: {
+                                    "Content-Type": "application/json"
+                                }
+                            }).then(function (response, status) {
+                                $scope.myData = response.data.data;
+                                transaction = $scope.myData;
+                                var transaction1 = [];
+                                for (var i = 0; i < transaction.length; i++)                      //opencheckouts
+                                    if (transaction[i].user.cardNum === card1)
+                                    {
+                                        transaction1.push(transaction[i]);
+                                    }
+                                $scope.transaction1 = transaction1;
+                            });
+                            $scope.unit = '';
+                            $scope.port = '';
+                            $scope.cyclenumber = '';
+                            //ipstatus = 0;
+                            unitstatus = 0;
+                            portstatus = 0;
+                            vehiclestatus = 0;
+                            userstatus = 0;
+                        });
+                    });
+                }, function errorCallback(response) {
+                    sweetAlert("Sorry Unlock not complet....");
+                });
+            } else {
+                sweetAlert("Missing a data....");
+            }
+        } else
+            sweetAlert("Still Loading....");
+    };
+});

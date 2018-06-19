@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Customer Update Dashboard</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <script src="bootstrap.min.js" type="text/javascript"></script>
+        <script src="sweetalert2.js" type="text/javascript"></script>
+        <link href="https://cdn.jsdelivr.net/sweetalert2/6.1.0/sweetalert2.css" rel="stylesheet"/>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="angular.min.js"></script>
+        <link href="style.css" rel="stylesheet" type="text/css"/>
+        <script src="app.js"></script>
+    </head>
+    <body>
+        <!--<div class="container">-->
+        <div ng-app="myApp" ng-controller="customersCtrl">  
+            <div id="demo"> <h2>Customer Update Dashboard</h2></div><br>
+            <div class="col-sm-12">
+                <label>Cards:  <input type="text" id="onfocus1" ng-model="card" ng-keyup="$event.keyCode === 13 && findcard(card)"ng-keydown="removeTagOnBackspace($event, card)" placeholder="Enter a cardnumber" autofocus></label><br>
+            </div>
+            <div class="col-sm-4" style="margin-top:3%">
+                <label>Name: {{name1}}</label><br>
+                <label>Phone: {{(phone).substring(3)}}</label><br>
+                <label>Email: <input type="email" ng-model="emailid"></label>
+            </div>
+            <div class="col-sm-2">
+               
+                <label>Status:<i ng-style="{ 'color' : (statuscolor == 1) ? 'green' : ( statuscolor == -1) ? 'red' :( statuscolor == -2) ? 'black' : ( statuscolor == -3) ? 'blue' : 'orange' }">{{status}}</i></label><br>
+                 <label>valid: {{valid}}</label><br>
+                 <label>Last Recharge: {{lastmodified| date:'dd MMM yy'}}</label><br>
+            </div>
+            <div class="col-sm-2">
+                <label>Balance: <input type="number" style="width: 50px;" ng-model="balance"></label><br>
+            </div>
+            <div class="col-sm-2">
+                <!--<label>Balance:<input type="number" ng-model="cbalance"></label><br>-->
+                <button style="margin-left:10%" ng-click="CreditData(card, balance);" class="btn btn-default">Update</button>
+                <button style="margin-top:10%" ng-click="EmailUpdate(emailid);" class="btn btn-default">EmailUpdate</button>
+            </div>
+            <div class="col-sm-2" id="demo1" style="display: block;">
+                <img ng-src="{{memberprofilePic}}" style="width: 150px;height:150px;" ng-class="image">
+            </div>
+            <div class="col-sm-12">
+                <div class="col-sm-4"><br>
+                <div class="panel panel-success">
+                    <div class="panel-heading">Open CheckOuts
+                    </div>
+                    <table class="table table-hover">     
+                        <tr>
+                            <th>Vehicle</th>
+                            <th>From</th>
+                            <th>checkout</th>
+                            <th>Clear</th>
+                        </tr>
+                        <tr ng-repeat="x in transaction1">
+                            <td>{{(x.vehicleId.vehicleNumber).substring(10)}}</td>
+                            <td>{{x.fromPort.Name}}</td>
+                            <td>{{x.checkOutTime| date:'dd MMM yy HH:mm:ss'}}</td>
+                            <td><button ng-click="deleteTransaction(x._id)">X</button></td>
+                        </tr>  
+                    </table>  
+                </div>
+            </div>
+                <div class="col-sm-8"><br>
+                <div class="tab-content">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            CompleteTransaction  <label style="padding-left: 22%;">Total:<span class="badge"> {{count}}</span></label>
+                        </div>
+                        <div id="table-scroll">
+                            <table class="table table-hover">    
+                                <thead>
+                                    <tr>
+                                        <th>Sl No.</th>
+                                        <th>Vehicle</th>
+                                        <th>FROM</th>
+                                        <th>AT</th>
+                                        <th>TO</th>
+                                        <th>AT</th>
+                                        <th>DURATION</th>
+                                        <th>COST</th>
+                                        <th>Balance</th>
+                                        <th>CLEAR</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="x in completetransactiondata">
+                                        <td>{{$index+1}}</td>
+                                        <td data-title="'cycleno'" >{{(x.vehicle.vehicleNumber).substring(10)}}</td>
+                                        <td>{{x.fromPort.Name}}</td>
+                                        <td>{{x.checkOutTime| date:'dd MMM yy HH:mm:ss'}}</td>
+                                        <td>{{x.toPort.Name}}</td>
+                                        <td>{{x.checkInTime| date:'dd MMM yy HH:mm:ss'}}</td>
+                                        <td>{{(x.duration).toFixed(2)}}</td>
+                                        <td>{{x.creditsUsed}}</td>
+                                         <td>{{x.creditBalance}}</td>
+                                        <td><button ng-click="delete(x._id)">X</button></td>
+                                        <!--<td><button ng-click="recordUpdae(x)">X</button></td>-->
+                                    </tr>  
+                                </tbody> 
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </body>
+</html>

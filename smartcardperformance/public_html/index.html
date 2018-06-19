@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SmartCard In Hub</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="angular.min.js" type="text/javascript"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!--<link href="style/bootstrap.min.css" rel="stylesheet" type="text/css"/>-->
+        <!--<script src="js/bootstrap.min.js" type="text/javascript"></script>-->
+        <link href="style.css" rel="stylesheet" type="text/css"/>
+        <script src="sweetalert2.js" type="text/javascript"></script>      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.map"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
+        <link href="https://cdn.jsdelivr.net/sweetalert2/6.1.0/sweetalert2.css" rel="stylesheet"/>
+        <script src="app.js"></script>
+    </head>
+    <body>
+        <div ng-app="myApp" ng-controller="customersCtrl">
+            <div id="demo"> <h3>SmartCard Performance</h3> </div>
+            <div class="col-sm-12" >
+                fromdate:<input type="date" ng-model="fromdate">
+                todate:<input type="date" ng-model="todate">
+                <button ng-click="submit(fromdate, todate);">submit</button>Total:{{length}}
+                 <button id="export" style="margin-left: 85%;margin-top: 2%;">ConvertCSV</button>
+                <div class="panel">
+                      <table id="export_table" class="table table-hover">
+                        <thead>
+                        <th>Sl.no</th>
+                        <th>DATE</th>
+                        <th>Docking Station</th>
+                        <th>within 1sec</th>
+                        <th>Total</th>
+                        <th>Smart Card Performance </th>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in rep|orderBy:'date'">
+                                <td>{{$index+1}}</td>
+                                <td>{{x.date|date:'dd MMM yy'}}</td>
+                                <td>{{x.Name}}</td>
+                                <td>{{x.duration1sec}}</td>
+                                <td>{{x.total}}</td>
+                                <td>{{(x.cal).toFixed(2)}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+         <script>
+            $(function () {
+            $("#export").click(function () {
+            $("#export_table").tableToCSV();
+            });
+            });
+        </script>
+    </body>
+</html>

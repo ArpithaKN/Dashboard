@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cash Mode Change</title>
+    <!--<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<style>
+    input[type=text], select {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input[type=button] {
+        width: 70%;
+        background-color: #059646;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    input[type=date], select {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input[type=submit]:hover {
+        background-color: #45a049;
+    }
+
+    div {
+        width:31%;
+        border-radius: 5px;
+        background-color: whitesmoke;
+        padding: 5px;
+    }
+</style>
+<body>
+<div>
+    <div>
+        <h2>Payment Auto Cancellation</h2>
+    </div>
+        <form>
+            <label for="userid"><b>User ID</b>&nbsp;<span style="color: red">*</span></label>
+            <br>
+            <input type="text" id="userid" name="userid" placeholder="Enter user id" >
+            <label id="lbluserid" style="color: red;"></label>
+            <br>
+            <label for="transactionno"><b>Transaction Number</b>&nbsp;<span style="color: red">*</span></label>
+            <br>
+            <input type="text" id="transactionno" name="userid" placeholder="Enter invoice no" >
+            <label id="lbltransactionno" style="color: red;"></label>
+            <br>
+            <label for="debitAmount"><b>Debit Amount</b>&nbsp;<span style="color: red">*</span></label>
+            <br>
+            <input type="text" id="debitAmount" name="debitAmount" placeholder="Enter debit amount">
+            <label id="lbldebitamount" style="color: red;"></label>
+            <br>
+            <label for="description"><b>Description</b>&nbsp;<span style="color: red">*</span></label>
+            <br>
+            <select id="description">
+                <option>Paygov Payment Reversal</option>
+                <option>CCAvenu Payment Reverse</option>
+            </select>
+            <label id="lblMode" style="color: red;"></label>
+            <br>
+            <label for="paymentMode"><b>Payment Mode</b>&nbsp;<span style="color: red">*</span></label>
+            <br>
+            <select id="paymentMode">
+                <option>mone-cash</option>
+                <option>Netbanking</option>
+                <option>Credit Card</option>
+                <option>Debit Card</option>
+                <option>Cash Card</option>
+                <option>Mobile Payemnets</option>
+                <option>Wallet</option>
+                <option>UPI</option>
+                <option>OnDemand</option>
+                <option>Wrong Entry</option>
+                <option>Duplicate Entry</option>
+            </select>
+            <label id="lblpaymentMode" style="color: red;"></label>
+            <br>
+            <label for="paymentThrough"><b>Payemnt Through</b>&nbsp;<span style="color: red">*</span></label>
+            <br>
+            <select id="paymentThrough">
+                <option>PayGov</option>
+                <option>CCAvenu</option>
+            </select>
+            <label id="lblpaymentThrough" style="color: red;"></label>
+            <br>
+            <label for="location"><b>Location</b>&nbsp;<span style="color: red">*</span></label>
+            <br>
+            <select id="location">
+                <option>UserPortal</option>
+            </select>
+            <label id="lbllocation" style="color: red;"></label>
+            <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="Submit" id="btnSubmit" onclick="myFunction()">
+        </form>
+</div>
+
+<script>
+    function myFunction()
+    {
+        var _user_id = document.getElementById("userid").value;
+        var _transaction_no = document.getElementById("transactionno").value;
+        var _debit_amount = document.getElementById("debitAmount").value;
+        var _description = document.getElementById("description").value;
+        var _payment_mode = document.getElementById("paymentMode").value;
+        var _payment_through = document.getElementById("paymentThrough").value;
+        var _location = document.getElementById("location").value;
+
+        if(_user_id == "" || _user_id == null)
+        {
+            document.getElementById("lbluserid").innerHTML = "Enter user id";
+            return false;
+        }
+        document.getElementById("lbluserid").innerHTML = "";
+
+        if(_transaction_no == "" || _transaction_no == null)
+        {
+            document.getElementById("lbltransactionno").innerHTML = "Enter debit amount";
+            return false;
+        }
+        document.getElementById("lbltransactionno").innerHTML = "";
+
+        if(_debit_amount == "" || _debit_amount == null)
+        {
+            document.getElementById("lbldebitamount").innerHTML = "Enter debit amount";
+            return false;
+        }
+        document.getElementById("lbldebitamount").innerHTML = "";
+
+        if(_payment_mode == "" || _payment_mode == null)
+        {
+            document.getElementById("lblpaymentMode").innerHTML = "Enter Payment Mode";
+            return false;
+        }
+        document.getElementById("lblpaymentMode").innerHTML = "";
+
+        if(_payment_through == "" || _payment_through == null)
+        {
+            document.getElementById("lblpaymentThrough").innerHTML = "Enter Payment Through";
+            return false;
+        }
+        document.getElementById("lblpaymentThrough").innerHTML = "";
+
+        /*var URL = "http://43.251.80.79:13060/api/member/"+_user_id+"/debit";*/
+        var URL = "https://www.mytrintrin.com:13060/api/member/"+_user_id+"/debit";
+
+        var _created_by =1;
+
+        var dataObject = {'gatewayTransactionId': _transaction_no,'paymentDescription': _description,'debit':_debit_amount,
+            'location': _location,'paymentMode':_payment_mode,'paymentThrough':_payment_through,'createdBy':_created_by};
+
+        $.ajax({
+            url: URL,
+            type: 'POST',
+            data: dataObject,
+            dataType: 'json',
+            success: function() {
+            alert("Success");
+            },
+            error:function (error) {
+            }
+        });
+    }
+</script>
+</body>
+</html>

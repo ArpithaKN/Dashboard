@@ -1,0 +1,64 @@
+#membership th{    /* MemberShip tab */
+    width:2%;
+}
+#membership td{
+    width:6%;
+}
+.panel-heading1{
+    background-color:cadetblue;
+    padding-left: 5%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    color:black;
+    width:70%;
+}
+.panel-heading2{
+    background-color:cadetblue;
+    padding-left: 5%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    color:black;
+    width:100%;
+}
+#registration tbody{   /*Registration Tab*/
+    text-align:left;
+}
+
+#registration table tbody, table thead
+{
+    display: block;
+}
+#registration table{
+    width:90%;
+}
+#registration th{
+    width: 1%;
+}
+#registration td{
+    width: 1%;
+}
+.panel-heading5{
+    background-color:cadetblue;
+    padding-left: 30%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    color:black;
+    width:90%;
+}
+#transactions th{                  /*transaction in stationwise*/
+    width:7%;
+    text-align: left;
+}
+#transactions td{                 
+    width:7%;
+    text-align: left;
+}
+.panel-heading{
+    background-color:green;
+    padding-left: 4%;
+    padding-bottom: 1%;
+    padding-top: 2%;
+    color: white;
+    font-size: 18px;
+}
+

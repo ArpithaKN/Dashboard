@@ -1,0 +1,23 @@
+#demo{
+    margin-top: 3%;
+    padding-left: 30%;
+    font-size: 20px;
+}
+.panel{
+    background-color:gainsboro;
+     /*margin-top: 5%;*/
+    margin-left: 5%;
+}
+.panel-heading{
+    background-color:green;
+    padding-left: 4%;
+    padding-bottom: 1%;
+    padding-top: 2%;
+    color: white;
+    font-size: 18px;
+}
+.col-sm-2{
+    height:650px;
+    overflow: auto;
+    width:15%;   
+}

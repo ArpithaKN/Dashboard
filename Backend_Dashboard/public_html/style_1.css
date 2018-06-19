@@ -1,0 +1,298 @@
+.col-sm-3{
+    margin-top: 5%;
+}
+#mySelect{
+    margin-left: 18%;
+    width: 15%;
+    /*height: auto;*/
+}
+#demo{
+    margin-top: 3%;
+    padding-left: 30%;
+    font-size: 20px;
+}
+#inputsize input{
+    max-width: 23%;
+}
+#inputsize1 input{
+    max-width: 12%;
+}
+#Balance{
+    margin-top: 8%;
+}
+#scrolls{
+    height:650px;
+    overflow: auto;
+    width:100%;   
+}
+#forcebox{
+    width: 32%;
+    height: 100%;
+    border: 1px solid green;
+}
+.findbox {
+    width: 90%;
+    height: 50%;
+    padding: 2%;
+    border: 1px solid buttontext;
+}
+.checkinbox {
+    width: 90%;
+    height: 100%;
+    padding: 2%;
+    border: 1px solid green;
+}
+#opt{
+    margin-left: 45%;
+    width: 20%;
+    height: 100%;
+    /*padding: 2%;*/
+    border: 1px solid pink;
+}
+/*.panel{
+    background-color:gainsboro;
+}*/
+.panel-heading1{
+    background-color:orange;
+    padding-left: 15%;
+    padding-bottom: 1%;
+    padding-top: 1%;
+    color: white;
+    /*     alignment-adjust:middle;*/
+}
+.panel-heading2{
+    background-color:green;
+    padding-left: 35%;
+    padding-bottom: 1%;
+    padding-top: 1%;
+    color: white;
+}
+.panel-heading3{
+    background-color:green;
+    padding-left:15%;
+    padding-bottom: 1%;
+    padding-top: 1%;
+    color: white;
+}
+.panel-heading{
+    background-color:green;
+    padding-left: 5%;
+    padding-bottom: 1%;
+    padding-top: 1%;
+    color: white;
+    font-size: 18px;
+}
+#ports table tbody 
+{
+    overflow: auto;
+    height: 2000%;
+}
+/*            #ports th td{
+                width: 0.5%;
+                text-align:center;
+            }
+*/
+tbody{
+    text-align:left;
+}
+table tbody, table thead
+{
+    display: block;
+}
+
+table tbody 
+{
+    overflow: auto;
+    height: 150px;
+}
+th{
+    width: 0.5%;
+}
+td{
+    width: 0.5%;
+}
+#table-scroll10 table tbody 
+{
+    overflow: auto;
+    height: 2500px;
+}
+#table-scroll5 table tbody 
+{
+    overflow: auto;
+    height: 200px;
+}
+#table-scroll7 table tbody 
+{
+    overflow: auto;
+    height: 2100px;
+}
+#table-scroll5  th{
+    width: 0.5%;
+}
+
+#table-scroll6 table tbody 
+{
+    overflow: auto;
+    height: 500px;
+}
+#table-scroll8 table tbody 
+{
+    overflow: auto;
+    height: 500px;
+}
+#nonoperta{
+    overflow: auto;
+    height: 400px;
+}
+#validity table tbody{
+    overflow: auto;
+    height: 400px;
+}
+#validity th{
+    width:40%;
+}
+/*           #space
+           {
+               margin-left: 55px;
+           }*/
+#demo1{
+    text-align: -webkit-center;
+    margin-top: 1%;
+}
+.green1 {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    text-align: center;
+    color: white;
+    border-radius: 50%;
+    vertical-align: middle;
+    background:mediumseagreen;
+    font-size:15px;
+}
+
+.red1 {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    text-align: center;
+    color: white;
+    border-radius: 50%;
+    vertical-align: middle;
+    background:red;
+    font-size:15px;
+}
+
+/*.blue {
+    width: 2px;
+    height: 2px;
+    text-align: center;
+    margin-left: 2%;
+    background:mediumseagreen;
+    font-size:15px;
+}*/
+.pink1 {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    text-align: center;
+    color: white;
+    border-radius: 50%;
+    vertical-align: middle;
+    background:deeppink;
+    font-size:15px;
+}
+.yellow1 {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    text-align: center;
+    color: black;
+    border-radius: 50%;
+    vertical-align: middle;
+    background:yellow;
+    font-size:15px;
+}
+.blue1 {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    text-align: center;
+    color: white;
+    border-radius: 50%;
+    vertical-align: middle;
+    background:cornflowerblue;
+    font-size:15px;
+}
+.orange1 {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    text-align: center;
+    color: black;
+    border-radius: 50%;
+    vertical-align: middle;
+    background:orange;
+    font-size:15px;
+}
+.purple1{
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    text-align: center;
+    color: white;
+    border-radius: 50%;
+    vertical-align: middle;
+    background:purple;
+    font-size:15px;
+}
+.purple{
+    width: 3%;
+    text-align: center;
+    background:purple;
+    font-size:15px;
+    color: white;
+}
+.yellow {
+    width: 3%;
+    text-align: center;
+    background:yellow;
+    font-size:15px;
+}
+.red {
+    width: 3%;
+    text-align: center;
+    background: red;
+    font-size:15px;
+    color: white;
+}
+.green {
+    width: 3%;
+    text-align: center;
+    background:mediumseagreen;
+    font-size:15px;
+}
+.pink{
+    width: 3%;
+    text-align: center;
+    background:pink;
+    font-size:15px;
+    color: white;
+}
+.orange {
+    width: 3%;
+    text-align: center;
+    background: orange;
+    font-size:15px;
+}
+.blue {
+    width: 3%;
+    text-align: center;
+    background:cornflowerblue;
+    font-size:15px;
+}
+
+
+#boxwidth{
+    margin-left: 2%;
+}

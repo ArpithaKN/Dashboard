@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Open CheckOuts</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/sweetalert2/6.1.0/sweetalert2.css" rel="stylesheet"/>
+        <script src="https://cdn.jsdelivr.net/sweetalert2/6.1.0/sweetalert2.js"></script>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="angular.min.js"></script>
+        <link href="style.css" rel="stylesheet" type="text/css"/>
+        <script src="app.js"></script>
+    </head>
+    <body>
+        <div ng-app="myApp" ng-controller="customersCtrl"> <br>
+            <div id="demo"> Tech Support Dash Board</div><br>
+            <div class="col-sm-12" >
+                 <div class="col-sm-8" >
+                     <div class="col-sm-4" >
+                <div class="col-sm-12" style="padding-left: 10%;" >
+                    <label>Card: <input type="text" ng-model="test.user.cardNum" ng-keyup="$event.keyCode === 13 && findcard(test.user.cardNum)"ng-keydown="removeTagOnBackspace($event, test.user.cardNum)" placeholder="Enter a cardnumber"></label><br>
+                    <label>Phone: <input type="text" ng-model="test1.user.phoneNumber" ng-keyup="$event.keyCode === 13 && findphone(test1.user.phoneNumber)" ng-keydown="removeTagOnBackspace($event, test1.user.phoneNumber)" placeholder="Enter a phoneno"></label><br>
+                    <!--<label>RFID: <input type="text" ng-model="test2.user.smartCardNumber" ng-keyup="$event.keyCode === 13 && findrfid(test2.user.smartCardNumber)" placeholder="Enter a RFID"></label>-->
+                </div><br>
+                <div class="col-sm-12" style="padding-left: 10%;"><br>
+                    <label>Station:<select chosen class="form-control"
+                                           ng-options="docking as docking.name for docking in dockings|orderBy:'name'"
+                                           ng-model="name" ng-change="selecteddockingstation(name)">
+                        </select>
+                    </label> <br>
+                </div>
+                     </div>
+                     <div class="col-sm-4" >
+                <div class="col-sm-12"  style="padding-left: 10%;"><br>
+                    
+                    <label>Cycle: <input type="number" ng-model="cyclenumber" placeholder="Enter a vehicle no"></label><br>
+                    <label>Unit: <input type="number" ng-model="unit" placeholder="Enter a unit"></label><br>
+                    <label>Port: <input type="number" ng-model="port" placeholder="Enter a port"></label><br>
+                </div>
+                <div class="col-sm-3" style="padding-left: 10%;"><br>
+                    <button ng-click="unlock();">UnLock</button>
+                </div>
+                     </div>
+                 </div>
+                <div class="col-sm-2">
+                    <label>Name:{{name1}}</label><br>
+                    <!--<label ng-class="{ 'green': {{status}} === 'Registered', 'red': {{status}} === 'Cancelled','orange': {{status}} === 'Prospective','black': {{status}} === 'Suspended','blue': {{status}} === 'Expired'}">Status:{{status}}</label><br>-->
+                    <label>Status:{{status}}</label><br>
+                    <label>Card:{{card}}</label><br>
+                    <label>Balance:{{bal}}</label><br>
+                    <label>Phone:{{(phone).substring(3)}}</label><br>
+                </div>
+                 <div class="col-sm-2" id="demo1" style="display: block;">
+                    <img ng-src="{{memberprofilePic}}" style="width: 200px;height:200px;" ng-class="image">
+                </div>
+            </div> 
+            <div class="col-sm-6"><br>
+                <div class="panel panel-success">
+                    <div class="panel-heading">Open CheckOuts
+                        <!--<label style="padding-left: 22%;">Total CheckOuts:<span class="badge"> {{count}}</span></label>-->
+                    </div>
+                    <table class="table table-hover">     
+                        <tr>
+                            <th>Name</th>
+                            <th>Card</th>
+                            <th>Phone</th>
+                            <th>Vehicle</th>
+                            <th>From</th>
+                            <th>checkout</th>
+                            <th>Clear</th>
+                            <!--<th>RFID</th>-->
+
+                        </tr>
+                        <tr ng-repeat="x in transaction1|  filter:test|  filter:test1|  filter:test2 |orderBy:'-checkOutTime'">
+                            <td> {{ x.user.Name}}</td>
+                            <td> {{ x.user.cardNum}}</td>
+                            <td> {{ (x.user.phoneNumber).substring(3)}}</td>
+                            <td>{{(x.vehicle.vehicleNumber).substring(10)}}</td>
+                            <td>{{x.fromPort.Name}}</td>
+                            <td>{{x.checkOutTime| date:'dd MMM yy HH:mm:ss'}}</td>
+                            <!--<td>{{x.user.smartCardNumber}}</td>-->
+                            <td><button ng-click="delete(x._id)"> <i class="glyphicon glyphicon-remove"></i></button></td>
+                        </tr>  
+                    </table>  
+                </div>
+            </div>
+            <div class="col-sm-6"><br>
+                <div class="panel">
+                    <div class="panel-heading2">
+                        Complete Transaction
+                    </div>
+                    <table class="table table-hover">
+                        <thead>
+                            <!--<th>Sl.No</th>-->
+                        <th>Phone</th>
+                        <th>VEHICLE</th>
+                        <th>FROM</th>
+                        <th>AT</th>
+                        <th>TO</th>
+                        <th>AT</th>
+                        <!--                                <th>DURATION</th>
+                                                        <th>AMOUNT</th>-->
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in completetransaction1">
+                                <!--<td>{{$index + 1}}.</td>-->
+                                <td> {{ x.user.phoneNumber}}</td>
+                                <td>{{(x.vehicle.vehicleNumber).substring(10)}}</td>
+                                <td>{{x.fromPort.Name}}</td>
+                                <td>{{x.checkOutTime| date:'dd MMM yy HH:mm:ss'}}</td>
+                                <td>{{x.toPort.Name}}</td>
+                                <td>{{x.checkInTime| date:'dd MMM yy HH:mm:ss'}}</td>
+                                <!--                                        <td>{{x.duration}}</td>
+                                                                        <td>{{x.creditBalance}}</td>-->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

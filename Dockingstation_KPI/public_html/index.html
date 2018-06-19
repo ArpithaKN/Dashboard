@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Docking_KPI</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <script src="bootstrap.min.js" type="text/javascript"></script>
+        <script src="sweetalert2.js" type="text/javascript"></script>
+        <link href="https://cdn.jsdelivr.net/sweetalert2/6.1.0/sweetalert2.css" rel="stylesheet"/>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="angular.min.js"></script>
+        <link href="style.css" rel="stylesheet" type="text/css"/>
+        <script src="app.js"></script>
+    </head>
+    <body>
+        <!--<div class="container">-->
+        <div ng-app="myApp" ng-controller="customersCtrl">  
+            <div class="col-sm-12" style="margin-top: 3%;">
+                <div id="demo">Docking KPI</div>
+                 <label>Station Name</label><input type="text" ng-model="test1.name">
+                <label>Status:</label><input type="text" ng-model="test.status">
+                <div class="panel panel-success">
+                    <div class="panel-heading">KPI_records : {{totalrecords}}
+                    </div>
+                    <table class="table table-hover">     
+                        <tr>
+                            <th>Sl.No</th>
+                            <th>Name</th>
+                            <th>StationType</th>
+                            <th>StartTime</th>
+                            <th> Endtime</th>
+                            <th>Peekduration</th>
+                            <th>Offpeekduration</th>
+                            <th>Timeduration</th>
+                            <th>Status</th>
+                            <th>UpdateStatus</th>
+                            <th id="space1"><button id="disablebutton" ng-click="deletekpirecord();">Clear</button></th>
+                        </tr>
+                        <tr ng-repeat="x in dockKPI|filter:test|filter:test1| orderBy:'-starttime'">
+                            <td>{{$index+1}}</td>
+                            <td>{{x.name}}</td>
+                            <td>{{x.stationtype}}</td>
+                            <td><input type="text" ng-model="x.starttime"></td>
+                            <td><input type="text" ng-model="x.endtime"></td>
+                            <td><input type="text" ng-model="x.peekduration" style="width:100%;"></td>
+                            <td><input type="text" ng-model="x.offpeekduration"  style="width:100%;"></td>
+                            <td><input type="text" ng-model="x.timeduration"  style="width:100%;"></td>
+                            <td>{{x.status1}}</td>
+                            <td><input type="text" ng-model="x.updateStatus"  style="width:100%;"></td>
+                            <!--<td><button ng-click="deletekpirecord(x._id)"> X </button></td>-->
+                            <td><input type="checkbox" ng-click="selectedList(select, x2._id)" ng-model="select"/></td>
+                            <td><button ng-click="updatekpirecord(x)"> Update </button></td>
+                        </tr>  
+                    </table>  
+                </div>
+            </div>
+        </div>
+        <!--</div>-->
+    </body>
+</html>

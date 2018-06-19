@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>MIS Summary</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="sweetalert2.css" rel="stylesheet" type="text/css"/>
+        <script src="jquery-3.2.0.min.js" type="text/javascript"></script>
+        <script src="sweetalert2.js" type="text/javascript"></script>
+        <script src="bootstrap.min.js" type="text/javascript"></script>
+        <script src="underscore-min.js" type="text/javascript"></script>
+        <script src="underscore.js" type="text/javascript"></script>
+        <!--<a href="underscore-min.map"></a>-->
+        <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+        <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+        <!--<link href="https://cdn.jsdelivr.net/sweetalert2/6.1.0/sweetalert2.css" rel="stylesheet"/>-->
+        <!--        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.map"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>-->
+        <script src="angular.min.js" type="text/javascript"></script>
+        <script src="app.js" type="text/javascript"></script>
+        <script src="jquery.tabletoCSV.js" type="text/javascript"></script>
+        <link href="style.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <!--        <div class="container">-->
+        <div  class="dropdown dropdown-scroll" ng-app="myApp" ng-controller="customersCtrl"> 
+            <br>
+            <div class="col-sm-9">
+                <ul class="nav nav-tabs">
+                    <li><a data-toggle="tab" href="#registration">Registration</a></li>
+                    <li class="active"><a data-toggle="tab" href="#CheckOut">Hourly_CheckOut</a></li>
+                    <li><a data-toggle="tab" href="#CheckIn">Hourly_CheckIn</a></li>
+                    <li><a data-toggle="tab" href="#transactions">Transactions</a></li>
+                    <li><a data-toggle="tab" href="#membership">MemberShip</a></li>
+                    <li><a data-toggle="tab" href="#Distribution">CheckoutsDistribution</a></li>
+                    <!--                    <li><a data-toggle="tab" href="#stations">Stations</a></li>
+                                        <li><a data-toggle="tab" href="#summary">Summary</a></li>-->
+                </ul>
+                <br>
+                <br>
+            </div>
+            <!--<div class="col-sm-3"><span><u><b>LastUpdate:</b></u>{{date}}             {{time}}</span></div>-->
+            <div class="col-sm-12">
+                <div class="tab-content">
+
+                    <div id="membership" class="tab-pane fade">
+                        <span>From: <input type="date" ng-model="fromdatemember" required /></span>
+                        <span>To: <input type="date"  ng-model="todatemember" required /></span>
+                        
+                        <button ng-click="GetMembers(fromdatemember, todatemember);">Get</button>
+                        <div class="col-sm-12" style="margin-top: 5%;">
+                            <div class="col-sm-3">
+                                <div class="panel1">
+                                    <div class="panel-heading2">
+                                        Gender Distribution
+                                    </div>
+                                    <table class="table table-hover" style=" width:100%;">
+                                        <tr>
+                                            <!--<th></th>-->
+                                            <th>Male</th>
+                                            <th>Female</th>
+                                        </tr>
+                                        <tbody>
+                                            <tr>
+                                                <!--<th>%</th>-->
+                                                <td>{{memberData.Male}} ({{(Male).toFixed(2)}}%)</td>
+                                                <td>{{memberData.Female}} ({{(Female).toFixed(2)}}%)</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-sm-9"  style=" margin-left: 15;">
+                                <div class="panel1">
+                                    <div class="panel-heading1">
+                                        Age Distribution
+                                    </div>
+                                    <table class="table table-hover" style=" width:70%;">
+                                        <tr>
+                                            <!--<th></th>-->
+                                            <th><20 Years</th>
+                                            <th>20 year - 30 year</th>
+                                            <th>30 year - 40 year</th>
+                                            <th>40 year - 50 year</th>
+                                            <th>>50 Years</th>
+                                        </tr>
+                                        <tbody>
+                                            <tr>
+                                                <!--<th>%</th>-->
+                                                <td>{{memberData.lessthan20}} ({{(lessthan20).toFixed(2)}}%)</td>
+                                                <td>{{memberData.gte20lt30}} ({{(gte20lt30).toFixed(2)}}%)</td>
+                                                <td>{{memberData.gte30lt40}} ({{(gte30lt40).toFixed(2)}}%)</td>
+                                                <td>{{memberData.gte40lt50}} ({{(gte40lt50).toFixed(2)}}%)</td>
+                                                <td>{{memberData.greaterthan50}} ({{(greaterthan50).toFixed(2)}}%)</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="registration" class="tab-pane fade">
+                        <span>From: <input type="date" ng-model="fromdatereg" required /></span>
+                        <span>To: <input type="date"  ng-model="todatereg" required /></span>
+                        <button ng-click="GetRegistrationData(fromdatereg, todatereg);">Get</button> 
+                        <span style="margin-left: 55%;"><u><b>Total:</b></u>{{paymenttransactionDatacount}}</span><br><br>
+                        <div class="col-sm-2">
+                            <ul class="nav nav-pills">
+                                <li class="active"><a data-toggle="pill" href="#trintrin">TrinTrin</a></li>
+                                <li><a data-toggle="pill" href="#mysuru1">Mysore1</a></li>
+                            </ul>
+                        </div>
+                        <div class="tab-content">
+                            <div id="trintrin" class="tab-pane fade in active">
+                                <div class="col-sm-10">
+                                    <div class="panel1">
+                                        <div class="panel-heading5">
+                                            TrinTrin Registration 
+                                        </div>
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Total</th>
+                                                    <td>{{TrintrinRegistrationCentersTotal.rtocount}}</td>
+                                                    <td>{{TrintrinRegistrationCentersTotal.railwaystationcount}}</td>
+                                                    <td>{{TrintrinRegistrationCentersTotal.KSRTCbusStandcount}}</td>
+                                                    <td>{{TrintrinRegistrationCentersTotal.CitybusStandcount}}</td>
+                                                    <td>{{TrintrinRegistrationCentersTotal.palacecount}}</td>
+                                                    <td>{{TrintrinRegistrationCentersTotal.zoocount}}</td>
+                                                    <td>{{TrintrinRegistrationCentersTotal.bulkregistrationscount}}</td>
+                                                    <th>{{TrintrinRegistrationCentersTotal.trintrintotalcount}}</th>
+                                                </tr>
+                                                <tr>
+                                                    <th>Date</th>
+                                                    <th>{{registrationcentersname[0].name}}</th>
+                                                    <th>{{registrationcentersname[1].name}}</th>
+                                                    <th>{{registrationcentersname[2].name}}</th>
+                                                    <th>{{registrationcentersname[3].name}}</th>
+                                                    <th>{{registrationcentersname[4].name}}</th>
+                                                    <th>{{registrationcentersname[5].name}}</th>
+                                                    <th>{{registrationcentersname[6].name}}</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="x in TrinRegistrationData|orderBy:'-date'">
+                                                    <td>{{x.date| date:'dd MMM yy'}}</td>
+                                                    <td>{{x.rto}}</td>
+                                                    <td>{{x.railwaystation}}</td>
+                                                    <td>{{x.KSRTCbusStand}}</td>
+                                                    <td>{{x.CitybusStand}}</td>
+                                                    <td>{{x.palace}}</td>
+                                                    <td>{{x.zoo}}</td>
+                                                    <td>{{x.bulkregistrations}}</td>
+                                                    <th>{{x.trintrintotal}}</th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="mysuru1" class="tab-pane fade">
+                                <div class="col-sm-10">
+                                    <div class="panel1">
+                                        <div class="panel-heading5">
+                                            Mysore1 Registration 
+                                        </div>
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Total</th>
+                                                    <td>{{mysore1RegistrationCentersTotal.Gokulamcount}}</td>
+                                                    <td>{{mysore1RegistrationCentersTotal.Krishnamurthypuramcount}}</td>
+                                                    <td>{{mysore1RegistrationCentersTotal.Nazarabadcount}}</td>
+                                                    <td>{{mysore1RegistrationCentersTotal.RamakrishnaNagarcount}}</td>
+                                                    <td>{{mysore1RegistrationCentersTotal.SiddarthLayoutcount}}</td>
+                                                    <td>{{mysore1RegistrationCentersTotal.NewSheshadriIyerRoadcount}}</td>
+                                                    <td>{{mysore1RegistrationCentersTotal.OtherLocationcount}}</td>
+                                                    <th>{{mysore1RegistrationCentersTotal.mysoretotalcount}}</th>
+                                                </tr>
+                                                <tr>
+                                                    <th>Date</th>
+                                                    <th>Gokulam</th>
+                                                    <th>KMpuram</th>
+                                                    <th>Nazarabad</th>
+                                                    <th>RK Nagar</th>
+                                                    <th>SiddarthLayout</th>
+                                                    <th>New Sheshadri Iyer Road</th>
+                                                    <th>OtherLocation</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="x in Mysore1RegistrationData|orderBy:'-date'">
+                                                    <td style="align:center;">{{x.date| date:'dd MMM yy'}}</td>
+                                                    <td>{{x.Gokulam}}</td>
+                                                    <td>{{x.Krishnamurthypuram}}</td>
+                                                    <td>{{x.Nazarabad}}</td>
+                                                    <td>{{x.RamakrishnaNagar}}</td>
+                                                    <td>{{x.SiddarthLayout}}</td>
+                                                    <td>{{x.NewSheshadriIyerRoad}}</td>
+                                                    <td>{{x.OtherLocation}}</td>
+                                                    <th style="align-items: right;">{{x.mysore1total}}</th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                    </div>
+                    <div id="CheckOut" class="tab-pane fade in active">
+                        <label> From Date:</label><input type="date" ng-model="fromdate">
+                        <label>To Date:</label><input type="date" ng-model="todate">
+                        <label style="margin-left: 5%;">Duration >:</label><input type="number" ng-model="duration" style="max-width:8%;">
+                        <button ng-click="hourlycheckoutcounts(fromdate, todate, duration);" style="margin-left: 11%;">Submit</button>
+                        <br><br>
+                        <div class="col-sm-11">
+                            <label>StationName: <input type="text" ng-model="test.name"></label>
+                            <button id="export" style="margin-left: 45%;">Download</button>
+                            <div class="panel panel-success" style="width: 90%;"> 
+                                <div class="panel-heading">Hourly CheckOuts
+                                </div>
+                                <table id="export_table" class="table table-hover">  
+                                    <tr>
+                                        <th>Total</th>
+                                        <th ng-repeat="x1 in hourlyTotalscheckout"> {{x1.counts}}</th>
+                                        <th>{{totalcheckoutcount}}</th></tr> 
+                                    <tr>
+                                        <td><b>Stations</b></td>
+                                        <td ng-repeat="x in hourlyTotalscheckout"><b>{{x.time}}</b></td>
+                                        <td><b>Total</b></td>
+                                    </tr>
+                                    <tr ng-repeat="x in hourlycheckouts| filter:test|orderBy:'-total'">
+                                        <td>{{x.name}}</td>
+                                        <td ng-repeat="x1 in x.hours"> {{x1.count}}</td>
+                                        <td><b>{{x.total}}</b></td>
+                                    </tr>  
+                                </table>  
+                            </div>
+                        </div>
+                    </div>
+                    <div id="CheckIn" class="tab-pane fade">
+                        <label> From Date:</label><input type="date" ng-model="fromdatecheckin">
+                        <label>To Date:</label><input type="date" ng-model="todatecheckin">
+                        <label style="margin-left: 5%;">Duration >:</label><input type="number" ng-model="checkinduration" style="max-width:8%;">
+                        <button ng-click="hourlywisecheckincounts(fromdatecheckin, todatecheckin, checkinduration);" style="margin-left: 11%;">Submit</button>
+                        <br><br>
+                        <div class="col-sm-11">
+                            <label>StationName: <input type="text" ng-model="test.name"></label>
+                            <button id="export1" style="margin-left: 45%;">Download</button>
+                            <div class="panel panel-success" style="width: 90%;"> 
+                                <div class="panel-heading">Hourly CheckOuts
+                                </div>
+                                <table id="export_table1" class="table table-hover">  
+                                    <tr>
+                                        <th>Total</th>
+                                        <th ng-repeat="x1 in hourlyTotalscheckin"> {{x1.counts}}</th>
+                                        <th>{{totalcheckincount}}</th></tr> 
+                                    <tr>
+                                        <td><b>Stations</b></td>
+                                        <td ng-repeat="x in hourlyTotalscheckin"><b>{{x.time}}</b></td>
+                                        <td><b>Total</b></td>
+                                    </tr>
+                                    <tr ng-repeat="x in hourlycheckins| filter:test|orderBy:'-total'">
+                                        <td>{{x.name}}</td>
+                                        <td ng-repeat="x1 in x.hours"> {{x1.count}}</td>
+                                        <td><b>{{x.total}}</b></td>
+                                    </tr>  
+                                </table>  
+                            </div>
+                        </div>
+                    </div>
+                    <div id="transactions" class="tab-pane fade">
+                        <div class="col-sm-10">
+                            <label> From Date:</label><input type="date" ng-model="fromdate">
+                            <label>To Date:</label><input type="date" ng-model="todate">
+
+                            <label style="margin-left: 5%;">Station:<select chosen class="form-control"
+                                                                            ng-options="dockingstation as dockingstation.name for dockingstation in dockingData1"
+                                                                            ng-model="name" ng-change="selecteddockingstation(name)">
+                                </select>
+                            </label> <br>
+                            <label>Duration >=<input type="text"  ng-model="duration" required /></label>
+                            <label for="checkout" style="margin-left: 3%;">CheckOut:</label>
+                            <input id="checkout" type="radio" ng-model="transaction" value="checkout"/>
+                            <label for="checkin" style="margin-left: 3%;">Checkin:</label>
+                            <input id="checkin" type="radio" ng-model="transaction" value="checkin" />
+
+                            <button ng-click="stationwisetransactions(fromdate, todate,duration);" style="margin-left: 40%;">Submit</button>
+                            <!--                        <br><label> From Time</label><input type="text" ng-model="fromtime">
+                                                    <label>To time</label><input type="text" ng-model="totime">-->
+                            <!--<br>Total:{{completetotal}}  Peek:{{peekours}}   Offpeak:{{offpeek}}-->
+                            <button id="export2" style="margin-left: 86%;margin-top: 1%;">Download</button>
+                            <div class="panel1">
+                                <div class="panel-heading">
+                                    <label>{{stationname}}: <span class="badge"> {{transactioncount}}
+                                        </span>
+                                    </label>
+                                </div>
+                                <table id="export_table2" class="table table-hover">
+                                    <th>MEMBER</th>
+                                    <th>BICYCLE NUMBER</th>
+                                    <th>CARD NUMBER</th>
+                                    <th>FROM</th>
+                                    <th>AT</th>
+                                    <th>To</th>
+                                    <th>At</th>
+                                    <th>DURATION</th>
+                                    <tbody>
+                                        <tr ng-repeat="x in transactionsData|orderBy:'checkOutTime'">
+                                            <td>{{x.user.Name}}</td>
+                                            <td>{{x.vehicle.vehicleNumber}}</td>
+                                            <td>{{x.user.cardNum}}</td>
+                                            <td>{{x.fromPort.DockingStationName}}</td>
+                                            <td>{{x.checkOutTime| date : "dd MMM yy', ' h:mma"}}</td>
+                                            <td>{{x.toPort.DockingStationName}}</td>
+                                            <td>{{x.checkInTime| date : "dd MMM yy', ' h:mma"}}</td>
+                                            <td>{{(x.duration).toFixed(2)}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Distribution" class="tab-pane fade" style="margin-top:3%">
+                    <div class="col-sm-12">
+                        <label> From Date:</label><input type="date" ng-model="Distributionfromdate">
+                            <label>To Date:</label><input type="date" ng-model="Distributiontodate">
+                            <button ng-click="checkoutDistribution(Distributionfromdate, Distributiontodate);" style="margin-left: 10%;">Submit</button>
+                    </div><br><div class="col-sm-4">
+                            <div class="panel panel-success">
+                            <div class="panel-heading">Member
+                                <label style="padding-left: 25%;">{{membertotalcheckouts}}</label>
+                            </div>
+                            <table class="table table-hover">     
+                                <tr>
+                                    <th>Mode</th>
+                                    <th>Count</th>
+                                    <th>%</th>
+                                </tr>
+                                <tr>
+                                    <td>Bridge</td>
+                                    <td>{{bridgemembercount}}</td>
+                                    <td>{{(memberbridgepercentage).toFixed(2)}}</td>
+                                </tr>  
+                                <tr>
+                                    <td>TechSupport</td>
+                                    <td>{{techsupportmembercount}}</td>
+                                    <td>{{(membertechsupportpercentage).toFixed(2)}}</td>
+                                </tr> 
+                            </table>  
+                        </div>
+                    </div>
+                   
+<!--                    <div class="col-sm-4">
+                        <div class="panel panel-success">
+                            <div class="panel-heading">Employee
+                                <label style="padding-left: 20%;">{{employeetotalcheckouts}}</label>
+                            </div>
+                            <table class="table table-hover">     
+                                <tr>
+                                    <th>Mode</th>
+                                    <th>Count</th>
+                                    <th>%</th>
+                                </tr>
+                                <tr>
+                                    <td>Bridge</td>
+                                    <td>{{bridgeemployeecount}}</td>
+                                    <td>{{(employeebridgepercentage).toFixed(2)}}</td>
+                                </tr>  
+                                <tr>
+                                    <td>TechSupport</td>
+                                    <td>{{techsupportemployeecount}}</td>
+                                    <td>{{(employeetechsupportpercentage).toFixed(2)}}</td>
+                                </tr> 
+                            </table>  
+                        </div>
+                    </div>-->
+                </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(function () {
+                $("#export").click(function () {
+                    $("#export_table").tableToCSV();
+                });
+            });
+            $(function () {
+                $("#export1").click(function () {
+                    $("#export_table1").tableToCSV();
+                });
+            });
+            $(function () {
+                $("#export2").click(function () {
+                    $("#export_table2").tableToCSV();
+                });
+            });
+        </script>
+    </body>
+</html>

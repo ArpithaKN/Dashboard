@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cash Mode Change</title>
+    <!--<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<style>
+    input[type=text], select {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input[type=button] {
+        width: 70%;
+        background-color: #059646;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    input[type=submit]:hover {
+        background-color: #45a049;
+    }
+
+    div {
+        width:31%;
+        border-radius: 5px;
+        background-color: whitesmoke;
+        padding: 5px;
+    }
+</style>
+<body>
+<div>
+    <form>
+        <label for="invoiceno"><b>Invoice Number</b>&nbsp;<span style="color: red">*</span></label>
+        <br>
+        <input type="text" id="invoiceno" name="userid" placeholder="Enter invoice id" >
+        <label id="lblinvoiceno" style="color: red;"></label>
+        <br>
+        <br>
+        <label for="creditamount"><b>Credit Amount</b>&nbsp;<span style="color: red">*</span></label>
+        <br>
+        <input type="text" id="creditamount" name="userid" placeholder="Enter credit amount" maxlength="10">
+        <label id="lblcreditamount" style="color: red;"></label>
+        <br>
+        <br>
+        <label for="paymentMode"><b>Pay Mode</b>&nbsp;<span style="color: red">*</span></label>
+        <br>
+        <select id="paymentMode" required>
+            <option value="">Select Pay Mode</option>
+            <option>mone-cash</option>
+            <option>Netbanking</option>
+            <option>Cash</option>
+            <option>Credit Card</option>
+            <option>Debit Card</option>
+            <option>Cash Card</option>
+            <option>Mobile Payemnets</option>
+            <option>Wallet</option>
+            <option>UPI</option>
+            <option>OnDemand</option>
+            <option>Wrong Entry</option>
+            <option>Duplicate Entry</option>
+        </select>
+        <label id="lblpaymentMode" style="color: red;"></label>
+
+        <label for="paymentThrough"><b>Payemnt Through</b>&nbsp;<span style="color: red">*</span></label>
+        <br>
+        <select id="paymentThrough" required>
+            <option value="">Select Payment Through</option>
+            <option>Payment Gateway</option>
+            <option>Cash</option>
+            <option>POS</option>
+            <option>OnDemand</option>
+            <option>mone-cash</option>
+            <option>Wrong Entry</option>
+            <option>Duplicate Entry</option>
+        </select>
+        <label id="lblpaymentThrough" style="color: red;"></label>
+
+        <label for="location"><b>Location</b>&nbsp;<span style="color: red">*</span></label>
+        <br>
+        <select id="location">
+            <option value="">Select Location</option>
+            <option>RTO Circle</option>
+            <option>Mysuru Railway Station</option>
+            <option>KSRTC Bus Stand</option>
+            <option>City Bus Stand</option>
+            <option>Mysuru Palace</option>
+            <option>Mysuru Zoo</option>
+            <option>Gokulam</option>
+            <option>New Sheshadri Iyer Road</option>
+            <option>Nazarabad</option>
+            <option>Siddarth Layout</option>
+            <option>Ramakrishna Nagar</option>
+            <option>Krishnamurthypuram</option>
+        </select>
+        <label id="lblLocation" style="color: red;"></label>
+        <br>
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="Submit" id="btnSubmit" onclick="myFunction()">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label id="lblsuccess"></label>
+        <br>
+        <br>
+    </form>
+</div>
+
+<script>
+    function myFunction()
+    {
+        var _invoiceNo = document.getElementById("invoiceno").value;
+        var _creditAmount = document.getElementById("creditamount").value;
+        var _paymentMode = document.getElementById("paymentMode").value;
+        var _paymentThrough = document.getElementById("paymentThrough").value;
+        var _location = document.getElementById("location").value;
+
+        if(_invoiceNo == "" || _invoiceNo == null)
+        {
+            document.getElementById("lblinvoiceno").innerHTML = "Enter Invoice No";
+            return false;
+        }
+        document.getElementById("lblinvoiceno").innerHTML = "";
+
+        if(_creditAmount == "" || _creditAmount == null)
+        {
+            document.getElementById("lblcreditamount").innerHTML = "Enter Credit Amount";
+            return false;
+        }
+        document.getElementById("lblcreditamount").innerHTML = "";
+
+        if(_paymentMode == "" || _paymentMode == null)
+        {
+            document.getElementById("lblpaymentMode").innerHTML = "Enter Payment Mode";
+            return false;
+        }
+        document.getElementById("lblpaymentMode").innerHTML = "";
+
+        if(_paymentThrough == "" || _paymentThrough == null)
+        {
+            document.getElementById("lblpaymentThrough").innerHTML = "Enter Payment Through";
+            return false;
+        }
+        document.getElementById("lblpaymentThrough").innerHTML = "";
+
+        /*if(_location == "" || _location == null)
+        {
+            document.getElementById("lblLocation").innerHTML = "Enter Location";
+            return false;
+        }
+        document.getElementById("lblLocation").innerHTML = "";*/
+
+        var URL = "https://www.mytrintrin.com:13060/api/paymenttransaction/correction";
+        /*var URL = "http://43.251.80.79:13060/api/paymenttransaction/correction";*/
+
+        var dataObject = {'invoiceNo': _invoiceNo,'credit':_creditAmount,'paymentMode':_paymentMode,'paymentThrough':_paymentThrough,'location':_location};
+
+        $.ajax({
+            url: URL,
+            type: 'PUT',
+            data: dataObject,
+            dataType: 'json',
+            success: function() {
+                document.getElementById("lblsuccess").innerHTML = "Successfull";
+                document.getElementById("invoiceno").value = '';
+                document.getElementById("creditamount").value = '';
+                document.getElementById("paymentMode").value = '';
+                document.getElementById("paymentThrough").value = '';
+                document.getElementById("location").value = '';
+            },
+            error:function (error) {
+            }
+        });
+    }
+</script>
+</body>
+</html>

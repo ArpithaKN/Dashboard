@@ -1,0 +1,22 @@
+.col-sm-2{
+    margin-top: 2%;
+}
+#demo{
+    margin-top: 3%;
+    padding-left: 30%;
+    font-size: 20px;
+}
+#Balance{
+    margin-top: 8%;
+}
+.panel{
+    background-color:gainsboro;
+}
+.panel-heading{
+    background-color:green;
+    /*padding-left: 5%;*/
+    padding-bottom: 1%;
+    padding-top: 1%;
+    color: white;
+    font-size: 18px;
+}

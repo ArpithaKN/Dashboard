@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Refound Unused Balance</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="angular.min.js" type="text/javascript"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!--<link href="style/bootstrap.min.css" rel="stylesheet" type="text/css"/>-->
+        <!--<script src="js/bootstrap.min.js" type="text/javascript"></script>-->
+        <link href="style.css" rel="stylesheet" type="text/css"/>
+        <script src="sweetalert2.js" type="text/javascript"></script>      
+        <script src="jquery.tabletoCSV.js" type="text/javascript"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.map"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
+        <link href="https://cdn.jsdelivr.net/sweetalert2/6.1.0/sweetalert2.css" rel="stylesheet"/>
+        <script src="app.js"></script>
+    </head>
+    <body>
+        <div ng-app="myApp" ng-controller="customersCtrl"><br>
+            <div id="demo"> <h3>Refound Unused Balance</h3> </div><br>
+            <label style="margin-left: 2%">Fromdate:</label><input type="date" ng-model="fromdate">
+            <label style="margin-left: 2%">Todate:</label><input type="date" ng-model="todate">
+            <button ng-click="getdata(fromdate, todate);">submit</button><br><br><br>
+            <br><br>
+            <div class="col-sm-6">
+                
+                <!--<button id="export" style="margin-left: 85%;margin-top: 2%;">ConvertCSV</button>-->
+                <div class="panel1">
+                    <div class="panel-heading">
+                        <label>Registration <span class="badge"> {{totalRegistration150Amount}}
+                        </label>
+                    </div>
+
+                    <table id="export_table" class="table table-hover">
+                        <thead>
+                        <th>MEMBER</th>
+                        <th>CARD NUMBER</th>
+                        <th>Amount</th>
+                        <th>Validity</th>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in totalRegistration150|orderBy:'memberId.validity'">
+                                <td>{{x.memberId.Name}}</td>
+                                <td>{{x.memberId.cardNum}}</td>
+                                <td>{{x.credit}}</td>
+                                <td>{{x.memberId.validity| date : "dd MMM yy"}}</td>
+                                 <td><button ng-click="recordUpdae(x);" class="btn btn-default">Update</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                
+                <!--<button id="export" style="margin-left: 85%;margin-top: 2%;">ConvertCSV</button>-->
+                <div class="panel1">
+                    <div class="panel-heading">
+                        <label>Refound Unused Balance <span class="badge"> {{totalRegistration150Count}}
+                        </label>
+                    </div>
+
+                    <table id="export_table" class="table table-hover">
+                        <thead>
+                        <th>MEMBER</th>
+                        <th>CARD NUMBER</th>
+                        <th>Amount</th>
+                        <th>Validity</th>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in daywisePayGov|orderBy:'memberId.validity'">
+                                <td>{{x.memberId.Name}}</td>
+                                <td>{{x.memberId.cardNum}}</td>
+                                <td>{{x.credit}}</td>
+                                <td>{{x.memberId.validity| date : "dd MMM yy"}}</td>
+                                 <td><button ng-click="recordUpdae(x);" class="btn btn-default">Update</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(function () {
+                $("#export").click(function () {
+                    $("#export_table").tableToCSV();
+                });
+            });
+        </script>
+    </body>
+</html>

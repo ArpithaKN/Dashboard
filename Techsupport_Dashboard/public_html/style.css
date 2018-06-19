@@ -1,0 +1,66 @@
+.orange {                     /*Station Name */
+    color: orange;
+}
+.red {
+    color: red;
+}
+.green {
+    color: green;
+    background-color: green;
+}
+.blue {
+    color: blue;
+}
+.black {
+    color:  black;
+}
+#inputsize input{
+    max-width: 7%;
+}
+.panel-heading{
+    padding-left: 20%;
+    padding-bottom:1%;
+    padding-top: 1%;
+    font-size: 120%;
+    color: white;
+    alignment-adjust:middle;
+}
+.panel-heading2{
+    background-color:skyblue;
+    padding-left: 35%;
+    padding-bottom: 1%;
+    padding-top: 1%;
+    color: white;
+}
+#demo{
+     padding-left: 40%;
+     font-size: 20px;
+}
+th{
+    padding-left: 5%;
+}
+td{
+    padding-left: 5%;
+}
+.orange {                     /*Station Name */
+/*    background-color: orange;*/
+    color:blue;
+}
+.red {
+/*    background-color: red;*/
+   color:red;
+}
+
+.green {
+/*    background-color: green;*/
+    color:green;
+}
+input[type=text]{
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }

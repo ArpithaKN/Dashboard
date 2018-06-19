@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>CheckOut and CheckIn</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="angular.min.js" type="text/javascript"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!--<link href="style/bootstrap.min.css" rel="stylesheet" type="text/css"/>-->
+        <!--<script src="js/bootstrap.min.js" type="text/javascript"></script>-->
+        <link href="style.css" rel="stylesheet" type="text/css"/>
+        <script src="sweetalert2.js" type="text/javascript"></script>      
+        <script src="jquery.tabletoCSV.js" type="text/javascript"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.map"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
+        <link href="https://cdn.jsdelivr.net/sweetalert2/6.1.0/sweetalert2.css" rel="stylesheet"/>
+        <script src="app.js"></script>
+        </head>
+    <body>
+        <!--<div class="container">-->
+        <div ng-app="myApp" ng-controller="customersCtrl">  
+                <div id="validity" style="margin-top:3%">
+                    <p>From: <input type="date" name="fromdate" ng-model="daywiseCollection.fromdate" required />
+                        To: <input type="date" name="tdate" ng-model="daywiseCollection.todate" required />
+                               <label>Station:<select chosen class="form-control"
+                                               ng-options="docking as docking.name for docking in dockingData|orderBy:'name'"
+                                               ng-model="name" ng-change="selecteddockingstation(name)">
+                            </select>
+                        </label>
+                         
+                        <button ng-click="sendDaywiseDetails()">Submit</button>
+                         
+                    <div class="col-sm-6">
+                        <div class="panel">
+                            <div class="panel-heading">
+                               <button id="export" style="margin-left: 85%;margin-top: 2%;">CheckOut_ConvertCSV</button>
+                                    </span>
+                                </label>
+                            </div>
+
+                            <table id="export_table" class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>vehicleId</th>
+                                        <th>UserID</th>
+                                        <th>fromPort</th>
+                                        <th>createdAt</th>
+                                        <th>checkOutInitiatedTime</th>
+                                        <th>checkOutTime</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="x in checkOut|orderBy:'checkOutTime'">
+                                        <td>{{x.vehicleId}}</td>
+                                        <td>{{x.user}}</td>
+                                        <td>{{x.fromPort}}</td>
+                                        <td>{{x.createdAt| date:'dd MMM yy HH:mm:ss'}}</td>	
+                                        <td>{{x.checkOutInitiatedTime| date:'dd MMM yy HH:mm:ss'}}</td>
+                                        <td>{{x.checkOutTime| date:'dd MMM yy HH:mm:ss'}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="panel">
+                            <div class="panel-heading1">
+                                <button id="export1" style="margin-left: 85%;margin-top: 2%;">CheckIn_ConvertCSV</button>
+                                    </span>
+                                </label>
+                            </div>
+
+                            <table id="export_table1" class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>vehicleId</th>
+                                        <th>toPort</th>
+                                        <th>createdAt</th>
+                                        <th>checkInTime</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="x in checkIn|orderBy:'checkInTime'">
+                                        <td>{{x.vehicleId}}</td>
+                                        <td>{{x.toPort}}</td>
+                                        <td>{{x.createdAt| date:'dd MMM yy HH:mm:ss'}}</td>
+                                        <td>{{x.checkInTime| date:'dd MMM yy HH:mm:ss'}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <script>
+            $(function () {
+                $("#export").click(function () {
+                    $("#export_table").tableToCSV();
+                });
+            });
+            $(function () {
+                $("#export1").click(function () {
+                    $("#export_table1").tableToCSV();
+                });
+            });
+        </script>
+    </body>
+</html>
+
+

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html ng-app=EmployeeApp>
+
+<head>
+    <script data-require="angular.js@1.2.0-rc3" data-semver="1.2.0-rc3" src="http://code.angularjs.org/1.2.0-rc.3/angular.min.js"></script>
+    <script src="searchdata.js"></script>
+</head>
+
+<body ng-controller="empCtrl">
+<table>
+    <tr>
+        <td align="right">Search :</td>
+        <td><input ng-model="query[queryBy]" /></td>
+    </tr>
+    <tr>
+        <td align="right">Search By :</td>
+        <td>
+            <select ng-model="queryBy">
+                <option value="$"></option>
+                <option value="name">NAME</option>
+                <option value="company">COMPANY</option>
+                <option value="designation">DESIGNATION</option>
+            </select>
+        </td>
+    </tr>
+</table>
+<hr>
+<div>
+    <table>
+        <tr>
+            <th>Employee Name</th>
+            <th>Company Name</th>
+            <th>Designation</th>
+        </tr>
+        <tr ng-repeat="emp in employees | filter:query">
+            <td>{{emp.name}}</td>
+            <td>{{emp.company}}</td>
+            <td>{{emp.designation}}</td>
+        </tr>
+    </table>
+</div>
+</body>
+
+</html>

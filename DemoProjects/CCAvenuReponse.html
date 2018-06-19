@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CCAvenu Response</title>
+    <!--<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<style>
+    input[type=text], select {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input[type=button] {
+        width: 70%;
+        background-color: #059646;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    input[type=submit]:hover {
+        background-color: #45a049;
+    }
+
+    div {
+        width:31%;
+        border-radius: 5px;
+        background-color: whitesmoke;
+        padding: 5px;
+    }
+</style>
+<body>
+<div>
+    <form>
+        <label for="userid"><b>User ID</b>&nbsp;<span style="color: red">*</span></label>
+        <br>
+        <input type="text" id="userid" name="id" placeholder="Enter user id" runat="server">
+        <label id="lbluserid" style="color: red;"></label>
+        <br>
+        <br>
+
+        <label for="creditAmount"><b>Credit Amount</b>&nbsp;<span style="color: red">*</span></label>
+        <br>
+        <select id="creditAmount">
+            <option value="360">Registration Rs.360</option>
+            <option value="25">Topup Rs.25</option>
+            <option value="55">Topup Rs.55</option>
+        </select>
+        <label id="lblcreditAmount" style="color: red;"></label>
+        <br>
+        <br>
+
+        <label for="creditMode"><b>Credit Mode</b>&nbsp;<span style="color: red">*</span></label>
+        <br>
+       <select id="creditMode">
+           <option>Netbanking</option>
+           <option>Credit Card</option>
+           <option>Debit Card</option>
+           <option>Cash Card</option>
+           <option>Mobile Payemnets</option>
+           <option>Wallet</option>
+           <option>UPI</option>
+       </select>
+        <label id="lblcreditMode" style="color: red;"></label>
+        <br>
+        <br>
+
+        <label for="transcationNumber"><b>Transaction No</b>&nbsp;<span style="color: red">*</span></label>
+        <br>
+        <input type="text" id="transcationNumber" name="transcation" placeholder="Transaction Number" maxlength="10">
+        <label id="lbltransactionNo" style="color: red;"></label>
+        <br>
+        <br>
+
+        <label for="comments"><b>Comments</b></label>
+        <br>
+        <textarea id="comments" rows="4" cols="55">
+        </textarea>
+        <br>
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="Submit" id="btnSubmit" onclick="myFunction()">
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><label id="lblsuccess" style="color:green;"></label></b>
+        <br>
+    </form>
+</div>
+
+<script>
+    function myFunction()
+    {
+        var _userid = document.getElementById("userid").value;
+        var _cardAmount = document.getElementById("creditAmount").value;
+        var _creditMode = document.getElementById("creditMode").value;
+        var _transactionNo = document.getElementById("transcationNumber").value;
+        var _comments = document.getElementById("comments").value;
+
+        if(_userid == "" || _userid == null)
+        {
+            document.getElementById("lbluserid").innerHTML = "Enter user id";
+            return false;
+        }
+        document.getElementById("lbluserid").innerHTML = "";
+
+        if(_cardAmount == "" || _cardAmount == null)
+        {
+            document.getElementById("lblcreditAmount").innerHTML = "Enter credit amount";
+            return false;
+        }
+        document.getElementById("lblcreditAmount").innerHTML = "";
+
+        if(_creditMode == "" || _creditMode == null)
+        {
+            document.getElementById("lblcreditMode").innerHTML = "Enter credit mode";
+            return false;
+        }
+        document.getElementById("lblcreditMode").innerHTML = "";
+
+        if(_transactionNo == "" || _transactionNo == null)
+        {
+            document.getElementById("lbltransactionNo").innerHTML = "Enter transaction Number";
+            return false;
+        }
+        document.getElementById("lbltransactionNo").innerHTML = "";
+
+        var URL = "http://43.251.80.79:13060/api/member/"+_userid+"/credit";
+
+        var dataObject = {'credit': _cardAmount,'creditMode':_creditMode, 'transactionNumber':_transactionNo,'comments': _comments};
+
+        $.ajax({
+            url: URL,
+            type: 'POST',
+            data: dataObject,
+            dataType: 'json',
+            success: function() {
+                document.getElementById("lblsuccess").innerHTML = "Successfull";
+                document.getElementById("creditAmount").value = '';
+                document.getElementById("creditMode").value = '';
+                document.getElementById("transcationNumber").value = '';
+                document.getElementById("comments").value = '';
+            },
+            error:function (error) {
+
+            }
+        });
+    }
+</script>
+</body>
+</html>

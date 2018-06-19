@@ -1,0 +1,74 @@
+.col-sm-12{
+          padding-left: 15%;
+          padding-top: 15px;
+      }
+      #demo1{
+              text-align: -webkit-center;
+              padding-top: 15px;
+      }
+      label{
+              padding-right: 10px;
+              color:darkcyan;
+      }
+      .nav{
+          padding-top: 18px;
+      }
+      .green {
+width: 25px;
+height: 25px;
+display: inline-block;
+text-align: center;
+color: white;
+/*border-radius: 50%;*/
+vertical-align: middle;
+background:mediumseagreen;
+ font-size:20px;
+}
+.red {
+width: 25px;
+height: 25px;
+display: inline-block;
+text-align: center;
+color: white;
+/*border-radius: 50%;*/
+vertical-align: middle;
+background: red;
+ font-size:20px;
+ display: inline-block;
+}
+.orange {
+width: 25px;
+height: 25px;
+display: inline-block;
+text-align: center;
+color: white;
+/*border-radius: 50%;*/
+vertical-align: middle;
+background: orange;
+ font-size:20px;
+ display: inline-block;
+}
+.blue {
+width: 25px;
+height: 25px;
+display: inline-block;
+text-align: center;
+color: white;
+/*border-radius: 50%;*/
+vertical-align: middle;
+background:cornflowerblue;
+ font-size:20px;
+ display: inline-block;
+}
+ul{
+    font-family:initial;
+    color:blueviolet;
+    font-size: 20px;
+}
+.col-sm-4{
+    top: 120px;
+}
+button{
+    width: 15%;
+    height: 3%;
+}

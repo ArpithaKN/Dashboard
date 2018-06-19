@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Backend Dashboard</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="style_1.css" rel="stylesheet" type="text/css"/>
+        <script src="jquery-3.2.0.min.js" type="text/javascript"></script>
+        <script src="bootstrap.min.js" type="text/javascript"></script>
+        <script src="sweetalert2.js" type="text/javascript"></script>
+        <script src="angular.min.js" type="text/javascript"></script>
+        <!--        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+        <link href="https://cdn.jsdelivr.net/sweetalert2/6.1.0/sweetalert2.css" rel="stylesheet"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.map"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
+        <!--<script src="https://cdn.jsdelivr.net/sweetalert2/6.1.0/sweetalert2.js"></script>-->
+        <!--<script src="bower_components/angular/angular.js"></script>-->
+        <!--<script src="angular.min.js"></script>-->
+        <!--<link href="style.css" rel="stylesheet" type="text/css"/>-->
+        <script src="app.js"></script>
+        <!--        <script type="text/javascript">
+                    $(function() {
+                    $("#disablebutton").click(function() {
+                    $("#disablebutton").attr("disabled", "disabled");
+                    setTimeout(function() {
+                    $("#disablebutton").removeAttr("disabled");
+                    }, 30000);
+                    });
+                    });
+                </script>-->
+    </head>
+    <body>
+        <!--<div class="container">-->
+        <div ng-app="myApp" ng-controller="customersCtrl">  
+            <div id="demo"> <h2>Backend Dashboard</h2></div>
+            <div class="col-sm-12">
+                <ul class="nav nav-pills">
+                    <li><a data-toggle="pill" href="#forcebicycle">Bicycle Checkin</a></li>
+                    <li><a data-toggle="pill" href="#ports">Ports_Status</a></li>
+                    <li><a data-toggle="pill" href="#cycle">Cycle_Status</a></li>
+                    <li><a data-toggle="pill" href="#Transaction">Open Transactions</a></li>
+                    <li><a data-toggle="pill" href="#Vehicle">Vehicle_with_Ports</a></li>
+                    <li><a data-toggle="pill" href="#Negative">Negative Balance Cancellation</a></li>
+                    <li><a data-toggle="pill" href="#Distribution">CheckoutsDistribution</a></li>
+                    <li><a data-toggle="pill" href="#techsupport">HourlyCheckouts</a></li>
+                    <li><a data-toggle="pill" href="#operation">NonOperationalHours Checkout</a></li>
+                    <li><a data-toggle="pill" href="#routines">Routines</a></li>
+                </ul>
+            </div><br><br>
+            <div class="tab-content">
+                <div id="cycle" class="tab-pane fade" style="margin-top:3%">
+                    <div id="demo1">
+                        <span class="green1"></span><label>Member </label> 
+                        <span class="blue1"></span><label>Port </label>
+                        <span class="red1"></span> <label>Fleet</label>
+                        <span class="orange1"></span><label>Redistribution-Employee</label>
+                        <span class="purple1"></span> <label>Maintenance-area</label>
+                        <span class="yellow1"></span><label>Holding-Area</label>
+                        <span class="pink1"></span><label>Employee</label>
+                    </div>
+                    <div class="col-sm-12"><br>
+                        <div id="boxwidth">
+                            <span 
+                                ng-repeat="y in vehicle| orderBy:'vehicleNumber'">
+                                <button ng-class="{'green': y.currentAssociationType === 'member', 
+                                            'red': y.currentAssociationType === 'Fleet', 
+                                            'blue': y.currentAssociationType === 'Docking-port',
+                                            'pink':(y.currentAssociationType === 'Operator') || (y.currentAssociationType === 'Holdingarea-employee') || (y.currentAssociationType === 'maintenancecentre-employee') || (y.currentAssociationType === 'registration-employee'),
+                                            'orange': y.currentAssociationType === 'redistribution-employee',
+                                            'purple': y.currentAssociationType === 'Maintenance-area',
+                                            'yellow':(y.currentAssociationType === 'Holding-area')}" ng-click="cycleplace(y);">
+                                    {{(y.vehicleNumber).substring(10)}}</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div id="ports" class="tab-pane fade" style="margin-top:3%">
+                    <label>STATION NAME: <input type="text" ng-model="test5.name"></label>
+                    <label style="margin-left: 5%;">Find Cycle:<input type="text" ng-model="findcyclenumber" maxlength="3" ng-keyup="$event.keyCode === 13 && findcycle(findcyclenumber)" ng-keydown="removeTagOnBackspace(findcyclenumber)"  autofocus></label>
+                    <label>{{cycleport}}</label><br>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width:0.8%;"></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th>Total:{{totalcycle}}</th>
+                            </tr>
+                            <tr>
+                                <th style="width:0.8%;">STATION NAME</th>
+                                <th>FPGA-3</th>
+                                <th>FPGA-4</th>
+                                <th>FPGA-5</th>
+                                <th>FPGA-6</th>
+                                <th>Cycles</th>
+                                <!--<th>Empty</th>-->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in dockingData|  filter:test5"> <!-- | orderBy:'name' -->
+                                <td style="width:0.5%;">{{x.name}}</td>
+                                <td>
+                                    <div>
+                                        <span 
+                                            ng-repeat="y in x.portIds| orderBy:'dockingPortId.ePortNumber' | orderBy:'dockingPortId.FPGA'"
+                                            ng-if="y.dockingPortId.FPGA === 3">
+                                            <span ng-if="y.dockingPortId.portStatus === 1">
+                                                <span ng-repeat="z in y.dockingPortId.vehicleId"
+                                                      ng-if="y.dockingPortId.portStatus === 1">{{(z.vehicleid.vehicleNumber).substring(10)}}<b>,</b>
+                                                </span>
+                                            </span>
+                                            <span ng-if="y.dockingPortId.portStatus !== 1">--<b>,</b>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <span 
+                                            ng-repeat="y in x.portIds| orderBy:'dockingPortId.ePortNumber' | orderBy:'dockingPortId.FPGA'"
+                                            ng-if="y.dockingPortId.FPGA === 4">
+                                            <span ng-if="y.dockingPortId.portStatus === 1">
+                                                <span ng-repeat="z in y.dockingPortId.vehicleId"
+                                                      ng-if="y.dockingPortId.portStatus === 1">{{(z.vehicleid.vehicleNumber).substring(10)}}<b>,</b>
+                                                </span>
+                                            </span>
+                                            <span ng-if="y.dockingPortId.portStatus !== 1">--<b>,</b>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <span 
+                                            ng-repeat="y in x.portIds| orderBy:'dockingPortId.ePortNumber' | orderBy:'dockingPortId.FPGA'"
+                                            ng-if="y.dockingPortId.FPGA === 5">
+                                            <span ng-if="y.dockingPortId.portStatus === 1">
+                                                <span ng-repeat="z in y.dockingPortId.vehicleId"
+                                                      ng-if="y.dockingPortId.portStatus === 1">{{(z.vehicleid.vehicleNumber).substring(10)}}<b>,</b>
+                                                </span>
+                                            </span>
+                                            <span ng-if="y.dockingPortId.portStatus !== 1">--<b>,</b>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <span 
+                                            ng-repeat="y in x.portIds| orderBy:'dockingPortId.ePortNumber' | orderBy:'dockingPortId.FPGA'"
+                                            ng-if="y.dockingPortId.FPGA === 6">
+                                            <span ng-if="y.dockingPortId.portStatus === 1">
+                                                <span ng-repeat="z in y.dockingPortId.vehicleId"
+                                                      ng-if="y.dockingPortId.portStatus === 1">{{(z.vehicleid.vehicleNumber).substring(10)}}<b>,</b>
+                                                </span>
+                                            </span>
+                                            <span ng-if="y.dockingPortId.portStatus !== 1">--<b>,</b>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td><b>{{x.bicycleCount}}</b></td>
+                                <!--<td><b>{{(x.bicycleCapacity) - (x.bicycleCount)}}</b></td>-->
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!--</div>-->
+                </div>
+
+                <div id="operation" class="tab-pane fade" style="margin-top:3%">
+                    From Date:<input type="date" ng-model="fromdatenonoperational">
+                    To Date:<input type="date" ng-model="todatenonoperational">
+                    <button ng-click="nonperationalhourlycheckoutcounts(fromdatenonoperational, todatenonoperational);">Submit</button>
+                    <div class="col-sm-12">
+                        <div class="col-sm-6">
+                            <div class="panel panel-success"> 
+                                <div class="panel-heading"> Mebers:<span class="badge"> {{nonoperationalhoursMeberscount}}</span>
+                                </div>
+                                <table class="table table-hover"> 
+                                    <tr>
+                                        <th>Card</th>
+                                        <th>Name</th>
+                                        <th>Date</th>
+                                        <th>Location</th>
+                                        <th>Time</th>
+                                        <th>Orign</th>
+                                    </tr>
+                                    <tr ng-repeat="x in nonoperationalhoursMebers|orderBy:'-checkouttime'">
+                                        <td>{{x.card}}</td>
+                                        <td>{{x.name}}</td>
+                                        <td>{{x.checkouttime| date:'dd MMM yy'}}</td>
+                                        <td>{{x.stationname}}</td>
+                                        <td>{{x.checkouttime| date:'HH:mm:ss'}}</td>
+                                        <th>{{x.orign}}</th>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="panel panel-success"> 
+                                <div class="panel-heading">Employees:<span class="badge"> {{nonoperationalhoursEmpcount}}</span>
+                                </div>
+                                <table class="table table-hover"> 
+                                    <tr>
+                                        <th>Card</th>
+                                        <th>Name</th>
+                                        <th>Date</th>
+                                        <th>Location</th>
+                                        <th>Time</th>
+                                        <th>Orign</th>
+                                    </tr>
+                                    <tr ng-repeat="x in nonoperationalhoursEmployee|orderBy:'-checkouttime'">
+                                        <td>{{x.card}}</td>
+                                        <td>{{x.name}}</td>
+                                        <td>{{x.checkouttime| date:'dd MMM yy'}}</td>
+                                        <td>{{x.stationname}}</td>
+                                        <td>{{x.checkouttime| date:'HH:mm:ss'}}</td>
+                                        <th>{{x.orign}}</th>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="Distribution" class="tab-pane fade" style="margin-top:3%">
+                    <div class="col-sm-4">
+                        <div class="panel panel-success">
+                            <div class="panel-heading">Member
+                                <label style="padding-left: 25%;">{{membertotalcheckouts}}</label>
+                            </div>
+                            <table class="table table-hover">     
+                                <tr>
+                                    <th>Mode</th>
+                                    <th>Count</th>
+                                    <th>%</th>
+                                </tr>
+                                <tr>
+                                    <td>Bridge</td>
+                                    <td>{{bridgemembercount}}</td>
+                                    <td>{{(memberbridgepercentage).toFixed(2)}}</td>
+                                </tr>  
+                                <tr>
+                                    <td>TechSupport</td>
+                                    <td>{{techsupportmembercount}}</td>
+                                    <td>{{(membertechsupportpercentage).toFixed(2)}}</td>
+                                </tr> 
+                            </table>  
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="panel panel-success">
+                            <div class="panel-heading">Employee
+                                <label style="padding-left: 20%;">{{employeetotalcheckouts}}</label>
+                            </div>
+                            <table class="table table-hover">     
+                                <tr>
+                                    <th>Mode</th>
+                                    <th>Count</th>
+                                    <th>%</th>
+                                </tr>
+                                <tr>
+                                    <td>Bridge</td>
+                                    <td>{{bridgeemployeecount}}</td>
+                                    <td>{{(employeebridgepercentage).toFixed(2)}}</td>
+                                </tr>  
+                                <tr>
+                                    <td>TechSupport</td>
+                                    <td>{{techsupportemployeecount}}</td>
+                                    <td>{{(employeetechsupportpercentage).toFixed(2)}}</td>
+                                </tr> 
+                            </table>  
+                        </div>
+                    </div>
+                </div>
+
+                <div id="techsupport" class="tab-pane fade" style="margin-top:3%">
+                    <div class="col-sm-12">
+                        <div class="col-sm-12">
+                            <label>StationName: <input type="text" ng-model="test6.name"></label>
+                            From Date:<input type="date" ng-model="fromdate">
+                            To Date:<input type="date" ng-model="todate">
+                            <button ng-click="hourlycheckoutcounts(fromdate, todate);">Submit</button>
+                            <!--<button id="export" style="margin-left: 45%;">ConvertCSV</button>-->
+                            <div class="panel panel-success" style="width: 85%;"> 
+                                <div class="panel-heading">Tech-Support Hourly_CheckOuts<span style="margin-left: 25%;"></span>
+                                </div>
+                                <div id="table-scroll7">
+                                    <table id="export_table" class="table table-hover">  
+                                        <tr>
+                                            <th>Total</th>
+                                            <th ng-repeat="x1 in hourlyTotals"> {{x1.counts}}</th>
+                                            <th>{{totalcount}}</th></tr> 
+                                        <tr>
+                                            <td><b>Stations</b></td>
+                                            <td ng-repeat="x in hourlyTotals"><b>{{x.time}}</b></td>
+                                            <td><b>Total</b></td>
+                                        </tr>
+                                        <tr ng-repeat="x in hourlycheckouts| filter:test6|orderBy:'-total'"">
+                                            <td>{{x.name}}</td>
+                                            <td ng-repeat="x1 in x.hours"> {{x1.count}}</td>
+                                            <td><b>{{x.total}}</b></td>
+                                        </tr>  
+                                    </table>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="routines" class="tab-pane fade" style="margin-top:3%">
+                    <div class="col-sm-4" style="padding-left: 5%;">
+                        <div class="alert alert-info">To clear Port and PortStatus in Selected Docking Hub
+                            <label>Station:<select chosen class="form-control"
+                                                   ng-options="dockingstation as dockingstation.name for dockingstation in dockingData|orderBy:'name'"
+                                                   ng-model="name" ng-change="selecteddockingstation(name)">
+                                </select>
+                            </label> <br>
+                            <button style="margin-top:3%;" ng-click="clearUndermaintaince();">UMclear</button>
+                        </div>
+                        <div class="alert alert-danger"><b>To clear all CheckIn and CheckOuts in Selected Docking Hub</b><br>
+                            <label>Station:<select chosen class="form-control"
+                                                   ng-options="docking as docking.name for docking in dockingData|orderBy:'name'"
+                                                   ng-model="name" ng-change="selecteddockingstationbridgeclear(name)">
+                                </select>
+                            </label> <br>
+                            <button style="margin-top:3%;" ng-click="clearselecteddockingstationbridge();">SelectedHubBridgeClear</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="alert alert-danger"><b>To clear all CheckIn and CheckOuts of all Docking Hubs: </b>
+                            <button ng-click="deleteBridge();" class="btn btn-default">ClearBridge</button></div><br>
+                        <div class="alert alert-danger"><b>To clear all Vehicles in member,OpenCheckouts and OpenCheckIn in Control Center:</b>  
+                            <button ng-click="deleteLocal();" class="btn btn-default">LocalReset</button></div><br>
+                        <div class="alert alert-danger"><b>To clear all Vehicles in member,OpenCheckouts , OpenCheckIn  and Sync all Users in SDC:</b>
+                            <button ng-click="Userreset();" class="btn btn-default">UserReset</button></div>
+                    </div>   
+                </div><br>
+
+                <div id="forcebicycle" class="tab-pane fade">
+                    <div class="col-sm-12">  
+                        <h4 style="margin-left: 35%;">Total Cycles:{{totalcycle}}</h4>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="col-sm-4" id="forcebox">
+                            <div id="force" class="col-sm-6">
+                                <label>StationName: <br>
+                                    <input type="text" ng-model="test.name" style="max-width: 95%;"></label>
+                                <div id="scrolls">
+                                    <ul class="nav" ng-repeat="x in dockingData| filter:test|orderBy:'name'">
+                                        <label id="x.StationID" ng-click="loadports(x);">{{x.name}}</label>
+                                    </ul>
+                                </div>
+                            </div> 
+                            <div class="col-sm-6" id="inputsize">
+                                <h4 style="margin-top: 2%;">{{stationname}}</h4><br>
+                                <h4>FPGA-3</h4>
+                                <input type="text" ng-model='portsEntry.FPGA31' maxlength="3">
+                                <input type="text" ng-model='portsEntry.FPGA32' maxlength="3">
+                                <input type="text" ng-model='portsEntry.FPGA33' maxlength="3">
+                                <input type="text" ng-model='portsEntry.FPGA34' maxlength="3">
+
+                                <h4>FPGA-4</h4>
+                                <input type="text" ng-model='portsEntry.FPGA41' maxlength="3">
+                                <input type="text" ng-model='portsEntry.FPGA42' maxlength="3">
+                                <input type="text" ng-model='portsEntry.FPGA43' maxlength="3">
+                                <input type="text" ng-model='portsEntry.FPGA44' maxlength="3">
+
+                                <h4>FPGA-5</h4>
+                                <input type="text" ng-model='portsEntry.FPGA51' maxlength="3">
+                                <input type="text" ng-model='portsEntry.FPGA52' maxlength="3">
+                                <input type="text" ng-model='portsEntry.FPGA53' maxlength="3">
+                                <input type="text" ng-model='portsEntry.FPGA54' maxlength="3">
+
+                                <lable  ng-if="port === 16">
+                                    <h4>FPGA-6</h4>
+                                    <input type="text" ng-model='portsEntry.FPGA61' maxlength="3">
+                                    <input type="text" ng-model='portsEntry.FPGA62' maxlength="3">
+                                    <input type="text" ng-model='portsEntry.FPGA63' maxlength="3">
+                                    <input type="text" ng-model='portsEntry.FPGA64' maxlength="3">
+                                </lable><br><br>
+                                <button ng-click="submitports();">Submit</button>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="panel">
+                                <div class="panel-heading3">Station_Wise_BicycleCount-{{totalcycle}}</div>
+                                <div id="table-scroll8">
+                                    <table class="table table-hover">    
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="x2 in dockingData| filter:test">
+                                                <td>{{x2.name}}</td>
+                                                <td>{{x2.bicycleCount}}</td>
+                                            </tr>  
+                                        </tbody> 
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <!--                            <div class="findbox">
+                                                            Find Cycle:<input type="text" ng-model="findcyclenumber" ng-keydown="removeTagOnBackspace(findcyclenumber)">
+                                                            <button ng-click="findcycle(findcyclenumber);">Find</button> <br><br>
+                                                            <label>{{cycleport}}</label><br>
+                                                        </div><br>-->
+                            <div class="checkinbox">
+                                <h4>CycleDistribution_Controler</h4><hr>
+                                <ul ng-repeat="x in fromports">
+                                    <label  ng-click="distributionselecteddockingstation(x);">{{$index + 1}}.{{x}}</label>
+                                </ul>
+                                <h4><u>{{distributioncentername}}</u></h4><br>
+                                Card:<input type="text" ng-model="cardNum" ><br><br>
+                                Cycle No:<input type="text" ng-model="cycleno" maxlength="3" ng-keyup="$event.keyCode === 13 && addcycledistribution(cycleno)" select="f for f in cycle" placeholder="Enter a cardnumber"><br>
+                                <!--                                <select id="mySelect" size="4">
+                                
+                                                                </select><br>-->
+                                <div id='opt'>
+                                    <ul class="nav"  ng-repeat="x in list">
+                                        <label id="x" ng-click="lists(x);" style="margin-left: 50%;">{{(x).substring(10)}}</label>
+                                    </ul>
+                                </div>
+                                <label>From/To:<select chosen class="form-control"
+                                                       data-role="listview"
+                                                       data-inset="true"
+                                                       ng-options="area as area.Name for area in stationnames"
+                                                       ng-model="Name" ng-change="selecteddockingstationports(Name)">
+                                    </select>
+                                </label>
+                                <br>
+                                <button ng-click="distributioncyclecheckouts();">checkOut</button>
+                                <button ng-click="distributioncyclecheckins();">CheckIn</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="Transaction" class="tab-pane fade"><br>
+                    <label>Card:<input type="text" ng-model="test1.cardNum"></label>
+                    <label>Vehicle:<input type="text" ng-model="test4.vehicleId"></label>
+                    <label style="margin-left:25%;">Total:{{Opentotalcount}}</label>
+                    <div class="col-sm-12">
+                        <div class="col-sm-4">
+                            <div class="panel">
+                                <div class="panel-heading2"> Employee - {{employeecount}}</div>
+                                <div>
+                                    <table class="table table-hover">    
+                                        <thead>
+                                            <tr>
+                                                <th>Card</th>
+                                                <th>Name</th>
+                                                <th>vehicle</th>
+                                                <th>CheckOut</th>
+                                                <th>From</th>
+                                                <th id="space1"><button id="disablebutton" ng-click="deleteEmployeeopencheckouts();">Clear</button></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="x2 in employee|  filter:test1|  filter:test4">
+                                                <td>{{x2.cardNum}}</td>
+                                                <td>{{x2.Name}}</td>
+                                                <td> {{(x2.vehicleId).substring(10)}}</td>
+                                                <td>{{x2.checkoutTime| date:'dd MMM yy HH:mm:ss'}}</td>
+                                                <td>{{x2.port}}</td>
+                                                <td><input type="checkbox" ng-click="selectedList(select, x2._id)" ng-model="select"/></td>
+                                            </tr>  
+                                        </tbody> 
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="panel">
+                                <div class="panel-heading1"> > 4 Hours - {{count4}}</div>
+                                <div>
+                                    <table class="table table-hover">    
+                                        <thead>
+                                            <tr>
+                                                <th>Card</th>
+                                                <th>vehicle</th>
+                                                <th>CheckOut</th>
+                                                <th>From</th>
+                                                <th id="space1"><button id="disablebutton" ng-click="deleteopencheckouts();">Clear</button></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="x2 in TransactionData4|  filter:test1|  filter:test4">
+                                                <td><label ng-click="popup(x2.cardNum);"  style="cursor: pointer;">{{x2.cardNum}}</label></td>
+                                                <td> {{(x2.vehicleId).substring(10)}}</td>
+                                                <td>{{x2.checkoutTime| date:'dd MMM yy HH:mm:ss'}}</td>
+                                                <td>{{x2.port}}</td>
+                                                <td><input type="checkbox" ng-click="selectedList(select, x2._id)" ng-model="select"/></td>
+                                            </tr>  
+                                        </tbody> 
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="panel">
+                                <div class="panel-heading2">> 3 Hours  - {{count3}}</div>
+                                <div>
+                                    <table class="table table-hover">    
+                                        <thead>
+                                            <tr>
+                                                <th>Card</th>
+                                                <th>vehicle</th>
+                                                <th>CheckOut</th>
+                                                <th>From</th>
+                                                <th><button id="disablebutton" ng-click="deleteopencheckouts();">Clear</button></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="table1">
+                                            <tr ng-repeat="x2 in TransactionData3|  filter:test1|  filter:test4">
+                                                <td><label ng-click="popup(x2.cardNum);"  style="cursor: pointer;">{{x2.cardNum}}</label></td>
+                                                <td> {{(x2.vehicleId).substring(10)}}</td>
+                                                <td>{{x2.checkoutTime| date:'dd MMM yy HH:mm:ss'}}</td>
+                                                <td>{{x2.port}}</td>
+                                                <td><input type="checkbox" ng-click="selectedList(select, x2._id)" ng-model="select"/></td>
+                                            </tr>    
+                                        </tbody> 
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="panel">
+                                <div class="panel-heading2">> 2 Hours - {{count2}}</div>
+                                <div id="table-scroll2">
+                                    <table class="table table-hover">    
+                                        <thead>
+                                            <tr>
+                                                <th>Card</th>
+                                                <th>vehicle</th>
+                                                <th>CheckOut</th>
+                                                <th>From</th>
+                                                <th><button id="disablebutton" ng-click="deleteopencheckouts();">Clear</button></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="x2 in TransactionData2|  filter:test1|  filter:test4">
+                                                <td><label ng-click="popup(x2.cardNum);"  style="cursor: pointer;">{{x2.cardNum}}</label></td>
+                                                <td> {{(x2.vehicleId).substring(10)}}</td>
+                                                <td>{{x2.checkoutTime| date:'dd MMM yy HH:mm:ss'}}</td>
+                                                <td>{{x2.port}}</td>
+                                                <td><input type="checkbox" ng-click="selectedList(select, x2._id)" ng-model="select"/></td>
+                                            </tr>  
+                                        </tbody> 
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="panel">
+                                <div class="panel-heading2">> 1 Hours - {{count1}}</div>
+                                <div>
+                                    <table class="table table-hover">    
+                                        <thead>
+                                            <tr>
+                                                <th>Card</th>
+                                                <th>vehicle</th>
+                                                <th>CheckOut</th>
+                                                <th>From</th>
+                                                <th><button id="disablebutton" ng-click="deleteopencheckouts();">Clear</button></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="x2 in TransactionData1|  filter:test1|  filter:test4">
+                                                <td><label ng-click="popup(x2.cardNum);"  style="cursor: pointer;">{{x2.cardNum}}</label></td>
+                                                <td> {{(x2.vehicleId).substring(10)}}</td>
+                                                <td>{{x2.checkoutTime| date:'dd MMM yy HH:mm:ss'}}</td>
+                                                <td>{{x2.port}}</td>
+                                                <td><input type="checkbox" ng-click="selectedList(select, x2._id)" ng-model="select"/></td>
+                                            </tr>  
+                                        </tbody> 
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="panel">
+                                <div class="panel-heading2"> &LT; 1 Hours - {{count}}</div>
+                                <div id="table-scroll4">
+                                    <table class="table table-hover">    
+                                        <thead>
+                                            <tr>
+                                                <th>Card</th>
+                                                <th>vehicle</th>
+                                                <th>CheckOut</th>
+                                                <th>From</th>
+                                                <th><button id="disablebutton" ng-click="deleteopencheckouts();">Clear</button></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="x2 in TransactionData|  filter:test1|  filter:test4">
+                                                <td><label ng-click="popup(x2.cardNum);"  style="cursor: pointer;">{{x2.cardNum}}</label></td>
+                                                <td> {{(x2.vehicleId).substring(10)}}</td>
+                                                <td>{{x2.checkoutTime| date:'dd MMM yy HH:mm:ss'}}</td>
+                                                <td>{{x2.port}}</td>
+                                                <td><input type="checkbox" ng-click="selectedList(select, x2._id)" ng-model="select"/></td>
+                                            </tr>  
+                                        </tbody> 
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="Negative" class="tab-pane fade">
+                    <div ng-show = "show_me" class="col-sm-3">
+                        <label>Cards: <input type="text" ng-model="test2" style="width: 30%;" autofocus></label><br>
+                        <span ng-repeat="x in nege| filter:test2">
+                            <button ng-click="getmemberinformations(x)">{{x}}</button>
+                        </span>
+                    </div>
+                    <div ng-show = "!show_me" >
+                        <br>
+                        <div class="col-sm-2"> </div>
+                        <div class="col-sm-2">
+                            <label>Name:{{name1}}</label><br>
+                            <label>Phone:{{(phone).substring(3)}}</label><br>
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Status:<i ng-style="{ 'color' : (statuscolor == 1) ? 'green' : ( statuscolor == -1) ? 'red' :( statuscolor == -2) ? 'black' : ( statuscolor == -3) ? 'blue' : 'orange' }">{{status}}</i></label><br>
+                            <label>valid:{{valid}}</label>
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Balance:{{bal}}</label><br>
+                        </div> 
+                        <div class="col-sm-2" id="demo1" style="display: block;">
+                            <img ng-src="{{memberprofilePic}}" style="width: 150px;height:150px;" ng-class="image">
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-8">
+                                <div class="panel">
+                                    <div class="panel-heading">
+                                        <button ng-click="BackList();" class="btn btn-default"> <--- </button>
+                                        <label style="padding-left: 10%;">Card:{{card1}}</label>
+                                        <label style="padding-left: 15%;"> Balance:{{amount}} </label>
+                                        <button style="margin-left: 30%;" ng-click="BalanceUpdate(card1, amount);" class="btn btn-default">Update</button>
+                                    </div>
+                                    <div id="table-scroll5">
+                                        <table class="table table-hover">    
+                                            <thead>
+                                                <tr>
+                                                    <th>FROM</th>
+                                                    <th>AT</th>
+                                                    <th>TO</th>
+                                                    <th>AT</th>
+                                                    <th>DURATION</th>
+                                                    <th>Balance</th>
+                                                    <th>CLEAR</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="x2 in negativeBalance">
+                                                    <td style="max-width: 25px;">{{x2.fromPort.Name}}</td>
+                                                    <td style="max-width: 18px;">{{x2.checkOutTime| date:'dd MMM yy HH:mm:ss'}}</td>
+                                                    <td style="max-width: 23px;">{{x2.toPort.Name}}</td>
+                                                    <td style="max-width: 20px;">{{x2.checkInTime| date:'dd MMM yy HH:mm:ss'}}</td>
+                                                    <td>{{x2.duration| number: 2}}</td>
+                                                    <td>{{x2.creditBalance}}</td>
+                                                    <td><button ng-click="transactiondelete(x2._id)">X</button></td>
+                                                </tr>  
+                                            </tbody> 
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="Vehicle" class="tab-pane fade" style="margin-top:3%">
+                    <label style="margin-left: 5%;">Vehicle:<input type="text" ng-model="test3.vehicle"></label>
+                    <div class="col-sm-12">
+                        <div class="col-sm-6">
+                            <div class="panel">
+                                <div class="panel-heading"> OpenCheckout -<span class="badge">  {{checkoutcount}}</span></div>
+                                <div id="table-scroll6">
+                                    <table class="table table-hover">    
+                                        <thead>
+                                            <tr>
+                                                <th>Card</th>
+                                                <th>Name</th>
+                                                <th>vehicle</th>
+                                                <th>CheckOut</th>
+                                                <th>From</th>
+                                                <th id="space1"><button id="disablebutton" ng-click="deleteopencheckouts();">Clear</button></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="x2 in checkoutvehicle|  filter:test3">
+                                                <td><label ng-click="popup(x2.card);"  style="cursor: pointer;">{{x2.card}}</label></td>
+                                                <td>{{x2.name}}</td>
+                                                <td> {{(x2.vehicle).substring(10)}}</td>
+                                                <td>{{x2.checkout| date:'dd MMM yy HH:mm:ss'}}</td>
+                                                <td>{{x2.form}}</td>
+                                                <td><input type="checkbox" ng-click="selectedList(select, x2.id)" ng-model="select"/></td>
+                                            </tr>  
+                                        </tbody> 
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="panel">
+                                <div class="panel-heading">Vehicle_With_Ports - <span class="badge"> {{vehiclecount}}</span></div>
+                                <div id="table-scroll6">
+                                    <table class="table table-hover">    
+                                        <thead>
+                                            <tr>
+                                                <th>Vehicle</th>
+                                                <th>Port</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="x2 in ports|  filter:test3">
+                                                <td> {{(x2.vehicle).substring(10)}}</td>
+                                                <td>{{x2.port}}</td>
+                                            </tr>  
+                                        </tbody> 
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
+
